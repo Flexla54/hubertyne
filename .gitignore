@@ -50,6 +50,5 @@ artifacts/
 *.svclog
 *.scc
 *.ipch
+*.angular
 node_modules/
-
-
