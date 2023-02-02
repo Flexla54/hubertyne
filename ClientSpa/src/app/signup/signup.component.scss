@@ -1,0 +1,11 @@
+.container {
+  //t = Title; i = Input Area; b = Buttons
+  grid-template-areas:
+    "t t t"
+    "i i i"
+    "i i i"
+    "b b b";
+
+  height: 100vh;
+  margin: 5vw;
+}
