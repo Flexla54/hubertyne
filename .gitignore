@@ -52,3 +52,4 @@ artifacts/
 *.ipch
 *.angular
 node_modules/
+.angular/

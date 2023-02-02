@@ -1,0 +1,13 @@
+<div class="loginBack">
+    <form class="loginForm" [formGroup]="loginForm" (keydown.enter)="onSubmit()">
+        <h1>Login</h1>
+        <h3>Username</h3>
+        <input id="float-input" type="text" pInputText placeholder="username" formControlName="username"><br>
+        <small *ngIf="loginFailed" id="username-help" class="p-error">Username or password are incorrect.</small>
+        <h3>Password</h3>
+        <p-password id="float-pw" [feedback]="false" [toggleMask]="true" formControlName="password"/>
+        <p>No account yet? <a routerLink="/register">register</a></p>
+        <br><br>
+        <p-button label="login" (onClick)="onSubmit()"></p-button>
+    </form>
+</div>
