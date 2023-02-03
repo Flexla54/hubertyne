@@ -12,6 +12,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SignupComponent } from './signup/signup.component';
 import { InputTextModule } from 'primeng/inputtext'
 
+import { ButtonModule } from "primeng/button";
 import { DividerModule } from "primeng/divider";
 import { InputNumberModule } from "primeng/inputnumber";
 
@@ -26,13 +27,12 @@ import { InputNumberModule } from "primeng/inputnumber";
     AppRoutingModule,
     ButtonModule,
     CardModule,
+    FormsModule,
+    DividerModule,
+    InputNumberModule,
     InputTextModule,
     PasswordModule,
-    FormsModule,
     ReactiveFormsModule,
-    InputTextModule,
-    DividerModule,
-    InputNumberModule
   ],
   providers: [],
   bootstrap: [AppComponent]
