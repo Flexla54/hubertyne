@@ -1,38 +1,69 @@
 <div class="container">
-  <H1>Register</H1>
-  <div>
-    <h3>Username</h3>
-    <input type="text" [(ngModel)]="username" pInputText class="p-inputtext-lg" placeholder="Hubertine">
+  <H1 id="title" class="center-h">Register</H1>
+  <div id="username" class="center-h">
+    <div>
+      <h3>Username</h3>
+      <input
+        type="text"
+        [(ngModel)]="username"
+        pInputText
+        placeholder="Hubertine"
+        class="p-inputtext-lg" />
+    </div>
   </div>
-  <div>
-    <h3>Email</h3>
-    <input type="text" [(ngModel)]="email" pInputText class="p-inputtext-lg" placeholder="great@example.com">
+  <div id="email" class="center-h">
+    <div>
+      <h3>Email</h3>
+      <input
+        type="text"
+        [(ngModel)]="email"
+        pInputText
+        placeholder="great@example.com"
+        class="p-inputtext-lg" />
+    </div>
   </div>
 
-  <div>
-    <h3>Password</h3>
-    <p-password [(ngModel)]="pw1" [toggleMask]="true">
-      <ng-template pTemplate="header">
-        <h5>Pick a password</h5>
-      </ng-template>
-      <ng-template pTemplate="footer">
-        <p-divider></p-divider>
-        <p class="mt-2">Suggestions</p>
-        <ul class="pl-2 ml-2 mt-0" style="line-height: 1.5">
-          <li>At least one lowercase</li>
-          <li>At least one uppercase</li>
-          <li>At least one numeric</li>
-          <li>Minimum 8 characters</li>
-      </ul>
-      </ng-template>
-    </p-password>
+  <div id="pw1" class="center-h">
+    <div>
+      <h3>Password</h3>
+      <p-password [(ngModel)]="pw1" [toggleMask]="true" class="p-inputtext-lg">
+        <ng-template pTemplate="header">
+          <h5>Pick a password</h5>
+        </ng-template>
+        <ng-template pTemplate="footer">
+          <p-divider></p-divider>
+          <p class="mt-2">Suggestions</p>
+          <ul class="pl-2 ml-2 mt-0" style="line-height: 1.5">
+            <li>At least one lowercase</li>
+            <li>At least one uppercase</li>
+            <li>At least one numeric</li>
+            <li>Minimum 8 characters</li>
+          </ul>
+        </ng-template>
+      </p-password>
+    </div>
   </div>
-  <div>
-    <h3>Repeat Password</h3>
-    <p-password [(ngModel)]="pw2" [toggleMask]="true"></p-password>
+  <div id="pw2" class="center-h">
+    <div>
+      <h3>Repeat Password</h3>
+      <p-password
+        [(ngModel)]="pw2"
+        [toggleMask]="true"
+        class="p-inputtext-lg"></p-password>
+    </div>
   </div>
-  <div>
-    <h3>Max Consumption</h3>
-    <p-inputNumber [(ngModel)]="maxconsumption" suffix=" W" placeholder="69.420 W" locale="de-DE"></p-inputNumber>
+  <div id="maxconsumption" class="center-h">
+    <div>
+      <h3>Max Consumption</h3>
+      <p-inputNumber
+        [(ngModel)]="maxconsumption"
+        suffix=" W"
+        placeholder="69.420 W"
+        locale="de-DE"
+        class="p-inputtext-lg"></p-inputNumber>
+    </div>
+  </div>
+  <div id="button" class="center-h">
+    <p-button label="Submit" icon="pi pi-check"></p-button>
   </div>
 </div>

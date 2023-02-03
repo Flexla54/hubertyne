@@ -1,11 +1,49 @@
-.container {
-  //t = Title; i = Input Area; b = Buttons
-  grid-template-areas:
-    "t t t"
-    "i i i"
-    "i i i"
-    "b b b";
+#title {
+  grid-area: title;
+}
+#username {
+  grid-area: usrname;
+}
+#email {
+  grid-area: email;
+}
+#pw1 {
+  grid-area: pw1;
+}
+#pw2 {
+  grid-area: pw2;
+}
+#maxconsumption {
+  grid-area: maxc;
+}
+#button {
+  grid-area: button;
+  margin-top: 3rem;
+}
 
-  height: 100vh;
-  margin: 5vw;
+.center-h {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+input {
+  width: minmax(180px, 80%);
+}
+
+@media only screen and (min-width: 650px) {
+  .container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 45vw));
+    column-gap: 0.5rem;
+    row-gap: 0.5rem;
+    grid-template-areas:
+      "title title"
+      "usrname email"
+      "pw1 pw2"
+      "maxc ."
+      "button button";
+
+    margin: 5vw;
+  }
 }
