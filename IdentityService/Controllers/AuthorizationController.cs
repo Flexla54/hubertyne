@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -25,6 +26,7 @@ namespace IdentityService.Controllers
         // TODO: Should support POST as this is part of the standard
         [HttpGet("~/connect/authorize")]
         [IgnoreAntiforgeryToken]
+        [AllowAnonymous]
         public async Task<IActionResult> Authorize()
         {
             var request = HttpContext.GetOpenIddictServerRequest() ?? throw new InvalidOperationException("The OpenID Connect request cannot be retrieved");
@@ -63,6 +65,7 @@ namespace IdentityService.Controllers
         // Token endpoint
         [EnableCors("*")]
         [HttpPost("~/connect/token")]
+        [AllowAnonymous]
         public async Task<IActionResult> Exchange() 
         {
             var request = HttpContext.GetOpenIddictServerRequest() ?? throw new InvalidOperationException("The OpenID Connect request cannot be retrieved");
