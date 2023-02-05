@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { DelegationService } from '../shared/services/delegation.service';
 
 @Component({
   selector: 'app-login',
@@ -13,7 +13,7 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private router: Router,
+    private readonly delegation: DelegationService
   ) {}
 
   ngOnInit() {
@@ -28,18 +28,12 @@ export class LoginComponent implements OnInit {
   onSubmit() {
     let uname = this.f['username'].value;
     let pw = this.f['password'].value
-    console.log(uname);
-    console.log(pw);
 
-    if (uname === "test" && pw === "UwU") {
-      //redirect to actual url and handle backend stuff once backend works
-      window.location.href = "https://google.com"
-      this.loginFailed = false;
-      return;
-    }
+    this.delegation.tryLogin(uname, pw).catch(() => {
+      this.loginFailed = true;
 
-    this.loginFailed = true;
-    this.f['username'].setValue("");
-    this.f['password'].setValue("");
+      this.f["username"].setValue("");
+      this.f["password"].setValue("");
+    });
   }
 }
