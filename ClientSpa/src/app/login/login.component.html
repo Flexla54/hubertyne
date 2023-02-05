@@ -5,8 +5,8 @@
         <input id="float-input" type="text" pInputText placeholder="username" formControlName="username"><br>
         <small *ngIf="loginFailed" id="username-help" class="p-error">Username or password are incorrect.</small>
         <h3>Password</h3>
-        <p-password id="float-pw" [feedback]="false" [toggleMask]="true" formControlName="password"/>
-        <p>No account yet? <a routerLink="/register">register</a></p>
+        <p-password id="float-pw" [feedback]="false" [toggleMask]="true" formControlName="password"></p-password>
+        <p>No account yet? <a routerLink="/signup">Sign up now!</a></p>
         <br><br>
         <p-button label="login" (onClick)="onSubmit()"></p-button>
     </form>
