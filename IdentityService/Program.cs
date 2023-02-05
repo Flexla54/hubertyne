@@ -2,10 +2,12 @@ using IdentityService;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Cors;
+using IdentityService.Models;
+using Microsoft.AspNetCore.Mvc.Authorization;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddMvcOptions(options => options.Filters.Add(new AuthorizeFilter("Default")));
 
 // Setup cookie authentication and redirect to the /login page when challenged to authenticate
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
@@ -13,7 +15,31 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     {
         // TODO: Change redirection to production site
         options.LoginPath = "/login";
+
+        var original = options.Events.OnRedirectToLogin;
+
+        options.Events.OnRedirectToLogin = context =>
+        {
+            if (!context.Request.Path.StartsWithSegments("/connect"))
+            {
+                context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+            } else
+            {
+                original(context);
+            }
+
+
+            return Task.CompletedTask;
+        };
     });
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("Default", policy =>
+    {
+        policy.RequireAuthenticatedUser();
+    });
+});
 
 // Add allow-all CORS policy
 builder.Services.AddCors(options =>
@@ -28,6 +54,13 @@ builder.Services.AddCors(options =>
 
 // Add service which creates test applications
 builder.Services.AddHostedService<AuthInitializer>();
+
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+
+builder.Services.AddDbContext<UserManagementDbContext>(options =>
+{
+    options.UseNpgsql(builder.Configuration["ConnectionStrings:UserManagementDbContextConnection"]);
+});
 
 // DbContext for OpenIddict
 builder.Services.AddDbContext<DbContext>(options =>
