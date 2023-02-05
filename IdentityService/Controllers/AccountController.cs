@@ -1,4 +1,5 @@
-﻿using IdentityService.Models;
+﻿using EntityFramework.Exceptions.Common;
+using IdentityService.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
@@ -11,36 +12,85 @@ namespace IdentityService.Controllers
     [ApiController]
     public class AccountController : ControllerBase
     {
+        private readonly IUserRepository _userRepository;
+
+        public AccountController(IUserRepository userRepository)
+        {
+            _userRepository = userRepository;
+        }
+
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> Login([FromBody] LoginDto loginDto)
+        public async Task<IActionResult> Signup([FromBody] SignupDto dto)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            // Debug: Do not allow login when the password is "123"
-            if (loginDto.Password == "123")
+            if (User.Identity != null && User.Identity.IsAuthenticated)
+            {
+                return Conflict(new JsonResult(new { title = "You can't create a second account" }));
+            }
+
+            try
+            {
+                User user = _userRepository.CreateUser(dto.Username, dto.Email, dto.Password);
+
+                await SignInAsync(user.Username, user.Id);
+
+                return Ok(user);
+            } 
+            catch (UniqueConstraintException)
+            {
+                return Conflict(new { title = "User with this username or email already exists" });
+            }
+        }
+
+        [HttpPost("session")]
+        [AllowAnonymous]
+        public async Task<IActionResult> Login([FromBody] LoginDto dto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (User.Identity != null && User.Identity.IsAuthenticated)
+            {
+                return Conflict(new JsonResult(new { title = "You can't login again without logging out first" }));
+            }
+
+            var result = _userRepository.VerifyUser(dto.Username, dto.Password);
+
+            if (result is null)
             {
                 return Unauthorized();
             }
 
-            var claims = new List<Claim> { new Claim(ClaimTypes.Name, loginDto.Username) };
-
-            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-
-            await HttpContext.SignInAsync(new ClaimsPrincipal(claimsIdentity));
+            await SignInAsync(result.Username, result.Id);
 
             return NoContent();
         }
 
-        [HttpPost("logout")]
+        [HttpDelete("session")]
         public async Task<IActionResult> LogOut()
         {
             await HttpContext.SignOutAsync();
 
             return NoContent();
+        }
+
+        private async Task SignInAsync(string username, Guid user_id)
+        {
+            var claims = new List<Claim> {
+                new Claim(ClaimTypes.Name, username),
+                new Claim("user_id", user_id.ToString()) 
+            };
+
+            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+            await HttpContext.SignInAsync(new ClaimsPrincipal(claimsIdentity));
         }
     }
 }
