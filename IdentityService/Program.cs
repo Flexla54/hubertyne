@@ -57,22 +57,23 @@ builder.Services.AddHostedService<AuthInitializer>();
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 
+// Application DbContext
 builder.Services.AddDbContext<UserManagementDbContext>(options =>
 {
     options.UseNpgsql(builder.Configuration["ConnectionStrings:UserManagementDbContextConnection"]);
 });
 
 // DbContext for OpenIddict
-builder.Services.AddDbContext<DbContext>(options =>
+builder.Services.AddDbContext<OpenIddictDbContext>(options =>
 {
-    options.UseInMemoryDatabase(nameof(DbContext));
+    options.UseNpgsql(builder.Configuration["ConnectionStrings:OpenIddictDbContextConnection"]);
     options.UseOpenIddict();
 });
 
 builder.Services.AddOpenIddict()
     .AddCore(options =>
     {
-        options.UseEntityFrameworkCore().UseDbContext<DbContext>();
+        options.UseEntityFrameworkCore().UseDbContext<OpenIddictDbContext>();
     })
     .AddServer(options =>
     {
