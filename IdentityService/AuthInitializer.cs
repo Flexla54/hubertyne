@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using IdentityService.Models;
+using Microsoft.EntityFrameworkCore;
 using OpenIddict.Abstractions;
 
 namespace IdentityService
@@ -17,7 +18,7 @@ namespace IdentityService
         {
             using var scope = serviceProvider.CreateScope();
 
-            var context = scope.ServiceProvider.GetRequiredService<DbContext>();
+            var context = scope.ServiceProvider.GetRequiredService<OpenIddictDbContext>();
             await context.Database.EnsureCreatedAsync(cancellationToken);
 
             var manager = scope.ServiceProvider.GetRequiredService<IOpenIddictApplicationManager>();
