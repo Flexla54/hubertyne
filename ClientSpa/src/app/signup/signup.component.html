@@ -1,6 +1,6 @@
 <div class="container">
   <H1 id="title" class="center-h">Register</H1>
-  <div id="username" class="center-h">
+  <div id="username" class="align-r-element">
     <div>
       <h3>Username</h3>
       <input
@@ -11,7 +11,7 @@
         class="p-inputtext-lg" />
     </div>
   </div>
-  <div id="email" class="center-h">
+  <div id="email" class="align-l-element">
     <div>
       <h3>Email</h3>
       <input
@@ -23,7 +23,7 @@
     </div>
   </div>
 
-  <div id="pw1" class="center-h">
+  <div id="pw1" class="align-r-element">
     <div>
       <h3>Password</h3>
       <p-password [(ngModel)]="pw1" [toggleMask]="true" class="p-inputtext-lg">
@@ -43,24 +43,13 @@
       </p-password>
     </div>
   </div>
-  <div id="pw2" class="center-h">
+  <div id="pw2" class="align-l-element">
     <div>
       <h3>Repeat Password</h3>
       <p-password
         [(ngModel)]="pw2"
         [toggleMask]="true"
         class="p-inputtext-lg"></p-password>
-    </div>
-  </div>
-  <div id="maxconsumption" class="center-h">
-    <div>
-      <h3>Max Consumption</h3>
-      <p-inputNumber
-        [(ngModel)]="maxconsumption"
-        suffix=" W"
-        placeholder="69.420 W"
-        locale="de-DE"
-        class="p-inputtext-lg"></p-inputNumber>
     </div>
   </div>
   <div id="button" class="center-h">
