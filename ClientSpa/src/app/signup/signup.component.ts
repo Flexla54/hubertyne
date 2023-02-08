@@ -1,4 +1,6 @@
 import { Component } from "@angular/core";
+import { ApiService } from "../shared/services/api.service";
+import { DelegationService } from "../shared/services/delegation.service";
 
 @Component({
   selector: "app-signup",
@@ -10,5 +12,22 @@ export class SignupComponent {
   email: string = "";
   pw1: string = "";
   pw2: string = "";
-  maxconsumption: number = 0;
+
+  constructor(
+    private readonly api: ApiService,
+    private readonly delegation: DelegationService
+  ) {}
+
+  public onSubmit() {
+    if (this.pw1 === this.pw2 && this.username == "" && this.email == "") {
+      this.api
+        .signup(this.username, this.email, this.pw1)
+        .catch((e) => {
+          // error handling code
+        })
+        .then(() => {
+          this.delegation.redirect();
+        });
+    }
+  }
 }
