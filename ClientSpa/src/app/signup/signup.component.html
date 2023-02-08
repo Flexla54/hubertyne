@@ -53,6 +53,16 @@
     </div>
   </div>
   <div id="button" class="center-h">
-    <p-button label="Submit" icon="pi pi-check"></p-button>
+    <button
+      pButton
+      pRipple
+      type="button"
+      label="Login"
+      routerLink="/login"
+      class="p-button-text"></button>
+    <p-button
+      label="Submit"
+      (onClick)="(onSubmit)"
+      icon="pi pi-check"></p-button>
   </div>
 </div>
