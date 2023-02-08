@@ -18,7 +18,21 @@
 }
 #button {
   grid-area: button;
-  margin-top: 3rem;
+  margin-top: 3vh;
+}
+
+.align-r-element {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 3vh 0;
+}
+
+.align-l-element {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 3vh 0;
 }
 
 .center-h {
@@ -27,23 +41,29 @@
   align-items: center;
 }
 
-input {
-  width: minmax(180px, 80%);
-}
-
 @media only screen and (min-width: 650px) {
   .container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 45vw));
-    column-gap: 0.5rem;
-    row-gap: 0.5rem;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto;
+    column-gap: 8vw;
+    row-gap: 3vh;
     grid-template-areas:
       "title title"
       "usrname email"
       "pw1 pw2"
-      "maxc ."
       "button button";
-
     margin: 5vw;
+  }
+
+  .align-r-element {
+    display: flex;
+    justify-content: right;
+    align-items: center;
+  }
+  .align-l-element {
+    display: flex;
+    justify-content: left;
+    align-items: center;
   }
 }
