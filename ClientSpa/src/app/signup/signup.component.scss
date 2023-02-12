@@ -1,8 +1,14 @@
+@mixin center($horizontal, $vertical) {
+  display: flex;
+  justify-content: $horizontal;
+  align-items: $vertical;
+}
+
 #title {
   grid-area: title;
 }
 #username {
-  grid-area: usrname;
+  grid-area: username;
 }
 #email {
   grid-area: email;
@@ -20,25 +26,23 @@
   grid-area: button;
   margin-top: 3vh;
 }
+#errorMsg {
+  grid-area: error;
+  height: 10vh;
+}
 
 .align-r-element {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  @include center(center, center);
   margin: 3vh 0;
 }
 
 .align-l-element {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  @include center(center, center);
   margin: 3vh 0;
 }
 
 .center-h {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  @include center(center, center);
 }
 
 @media only screen and (min-width: 650px) {
@@ -49,21 +53,18 @@
     column-gap: 8vw;
     row-gap: 3vh;
     grid-template-areas:
-      "title title"
-      "usrname email"
-      "pw1 pw2"
-      "button button";
+      'title title'
+      'username email'
+      'pw1 pw2'
+      'error error'
+      'button button';
     margin: 5vw;
   }
 
   .align-r-element {
-    display: flex;
-    justify-content: right;
-    align-items: center;
+    @include center(right, center);
   }
   .align-l-element {
-    display: flex;
-    justify-content: left;
-    align-items: center;
+    @include center(left, center);
   }
 }

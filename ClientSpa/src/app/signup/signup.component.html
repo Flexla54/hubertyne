@@ -1,11 +1,11 @@
-<div class="container">
+<form class="container" [formGroup]="signupForm">
   <H1 id="title" class="center-h">Register</H1>
   <div id="username" class="align-r-element">
     <div>
       <h3>Username</h3>
       <input
         type="text"
-        [(ngModel)]="username"
+        formControlName="username"
         pInputText
         placeholder="Hubertine"
         class="p-inputtext-lg" />
@@ -16,17 +16,19 @@
       <h3>Email</h3>
       <input
         type="text"
-        [(ngModel)]="email"
+        formControlName="email"
         pInputText
         placeholder="great@example.com"
         class="p-inputtext-lg" />
     </div>
   </div>
-
   <div id="pw1" class="align-r-element">
     <div>
       <h3>Password</h3>
-      <p-password [(ngModel)]="pw1" [toggleMask]="true" class="p-inputtext-lg">
+      <p-password
+        formControlName="pw1"
+        [toggleMask]="true"
+        class="p-inputtext-lg">
         <ng-template pTemplate="header">
           <h5>Pick a password</h5>
         </ng-template>
@@ -47,9 +49,24 @@
     <div>
       <h3>Repeat Password</h3>
       <p-password
-        [(ngModel)]="pw2"
+        formControlName="pw2"
         [toggleMask]="true"
         class="p-inputtext-lg"></p-password>
+    </div>
+  </div>
+  <div id="errorMsg" class="center-h">
+    <div>
+      <div *ngIf="signupStatus.isEmpty" class="p-error block">
+        Some fields are empty!
+      </div>
+
+      <div *ngIf="signupStatus.invEmail" class="p-error block">
+        The given email is invalid!
+      </div>
+
+      <div *ngIf="signupStatus.difPw" class="p-error block">
+        The passwords do not match!
+      </div>
     </div>
   </div>
   <div id="button" class="center-h">
@@ -62,7 +79,8 @@
       class="p-button-text"></button>
     <p-button
       label="Submit"
-      (onClick)="(onSubmit)"
-      icon="pi pi-check"></p-button>
+      (onClick)="onSubmit()"
+      icon="pi pi-check"
+      [disabled]="!signupForm.valid"></p-button>
   </div>
-</div>
+</form>
