@@ -18,8 +18,20 @@ namespace IdentityService
         {
             using var scope = serviceProvider.CreateScope();
 
-            var context = scope.ServiceProvider.GetRequiredService<OpenIddictDbContext>();
-            await context.Database.EnsureCreatedAsync(cancellationToken);
+            var userManagementContext = scope.ServiceProvider.GetRequiredService<UserManagementDbContext>();
+            var openIddictContext = scope.ServiceProvider.GetRequiredService<OpenIddictDbContext>();
+
+            if (userManagementContext.Database.GetPendingMigrations().Any())
+            {
+                userManagementContext.Database.Migrate();
+            }
+
+            if (openIddictContext.Database.GetPendingMigrations().Any())
+            {
+                openIddictContext.Database.Migrate();
+            }
+
+            await openIddictContext.Database.EnsureCreatedAsync(cancellationToken);
 
             var manager = scope.ServiceProvider.GetRequiredService<IOpenIddictApplicationManager>();
 

@@ -1,7 +1,6 @@
 using IdentityService;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Cors;
 using IdentityService.Models;
 using Microsoft.AspNetCore.Mvc.Authorization;
 
@@ -93,7 +92,8 @@ builder.Services.AddOpenIddict()
 
         options.UseAspNetCore()
             .EnableTokenEndpointPassthrough()
-            .EnableAuthorizationEndpointPassthrough();
+            .EnableAuthorizationEndpointPassthrough()
+            .DisableTransportSecurityRequirement(); // TODO: Remove
     })
     .AddValidation(options =>
     {
@@ -104,8 +104,6 @@ builder.Services.AddOpenIddict()
 
 var app = builder.Build();
 
-app.UseHttpsRedirection();
-
 app.MapControllers();
 app.UseRouting();
 
@@ -114,13 +112,6 @@ app.UseCors();
 app.UseAuthentication();
 
 app.UseEndpoints((_) => { });
-
-// Proxy the AuthSpa so that it can be used form the same origin as the API
-// (because of cookie policies)
-app.UseSpa(x =>
-{
-    x.UseProxyToSpaDevelopmentServer("http://localhost:4200/");
-});
 
 app.Run();
 
