@@ -12,5 +12,5 @@ WORKDIR /app
 
 COPY --from=build /app/out .
 
-ENTRYPOINT ["dotnet", "/app/IdentityService.dll"]
+ENTRYPOINT ["dotnet", "IdentityService.dll"]
 
