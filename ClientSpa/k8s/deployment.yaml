@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: identity-spa
+spec:
+  selector:
+    matchLabels:
+      app: identity-spa
+  template:
+    metadata:
+      labels:
+        app: identity-spa
+    spec:
+      containers:
+      - name: identity-spa
+        image: id-client
+        imagePullPolicy: Never
+        resources:
+          limits:
+            memory: "512Mi"
+            cpu: "1"
+        ports:
+        - containerPort: 80
+
