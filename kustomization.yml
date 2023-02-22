@@ -1,0 +1,8 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - "./k8s/identityTlsCertificate.yaml"
+  - "./k8s/selfsignedIssuer.yaml"
+  - "./k8s/infrastructure/postgres"
+  - "./IdentityService"
