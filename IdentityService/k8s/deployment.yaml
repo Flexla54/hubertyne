@@ -13,6 +13,8 @@ spec:
     metadata:
       labels:
         app: identity
+      annotations:
+        linkerd.io/inject: enabled
     spec:
       containers:
       - name: identity
