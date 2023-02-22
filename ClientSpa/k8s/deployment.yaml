@@ -10,6 +10,8 @@ spec:
     metadata:
       labels:
         app: identity-spa
+      annotations:
+        linkerd.io/inject: enabled
     spec:
       containers:
       - name: identity-spa
