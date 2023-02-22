@@ -4,6 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using IdentityService.Models;
 using Microsoft.AspNetCore.Mvc.Authorization;
 
+string? dbHostString = Environment.GetEnvironmentVariable("db_host_string");
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers().AddMvcOptions(options => options.Filters.Add(new AuthorizeFilter("Default")));
@@ -59,13 +61,21 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 // Application DbContext
 builder.Services.AddDbContext<UserManagementDbContext>(options =>
 {
-    options.UseNpgsql(builder.Configuration["ConnectionStrings:UserManagementDbContextConnection"]);
+     string? connectionString = dbHostString != null
+        ? dbHostString + "Database=user-management;"
+        : builder.Configuration["ConnectionStrings:OpenIddictDbContextConnection"];
+
+    options.UseNpgsql(connectionString);
 });
 
 // DbContext for OpenIddict
 builder.Services.AddDbContext<OpenIddictDbContext>(options =>
 {
-    options.UseNpgsql(builder.Configuration["ConnectionStrings:OpenIddictDbContextConnection"]);
+    string? connectionString = dbHostString != null
+        ? dbHostString + "Database=openiddict;"
+        : builder.Configuration["ConnectionStrings:OpenIddictDbContextConnection"];
+
+    options.UseNpgsql(connectionString);
     options.UseOpenIddict();
 });
 
