@@ -53,6 +53,22 @@ namespace IdentityService
                         OpenIddictConstants.Permissions.ResponseTypes.Code
                     }
                 }, cancellationToken);
+
+                await manager.CreateAsync(new OpenIddictApplicationDescriptor
+                {
+                    ClientId = "hubertyne-spa",
+                    DisplayName = "Hubertyne Client SPA (Dashboard)",
+                    RedirectUris = { new Uri("http://localhost:4200/home"), new Uri("https://oauthdebugger.com/debug") },
+                    Type = OpenIddictConstants.ClientTypes.Public,
+                    Permissions =
+                    {
+                        OpenIddictConstants.Permissions.Endpoints.Token,
+                        OpenIddictConstants.Permissions.Endpoints.Authorization,
+                        OpenIddictConstants.Permissions.GrantTypes.AuthorizationCode,
+                        OpenIddictConstants.Permissions.Prefixes.Scope + "api",
+                        OpenIddictConstants.Permissions.ResponseTypes.Code,
+                    }
+                });
             }
         }
 
