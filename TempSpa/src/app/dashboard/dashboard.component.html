@@ -1,0 +1,25 @@
+<p-sidebar [(visible)]="display">
+    <h2>Navigation</h2>
+    <ul class="sidebar-content">
+        <li>
+            <p-skeleton></p-skeleton>
+        </li>
+        <li>
+            <p-skeleton></p-skeleton>
+        </li>
+        <li>
+            <p-skeleton></p-skeleton>
+        </li>
+        <li>
+            <p-skeleton></p-skeleton>
+        </li>
+    </ul>
+</p-sidebar>
+
+<p-toolbar>
+    <p-button (click)="display = true" icon="pi pi-bars"></p-button>
+    <p-avatar icon="pi pi-user" onclick="alert('account settings soon:tm:')" size="large"></p-avatar>
+</p-toolbar>
+<div class="consumption-chart">
+    <p-chart type="line" [data]="plugdata"></p-chart>
+</div>
