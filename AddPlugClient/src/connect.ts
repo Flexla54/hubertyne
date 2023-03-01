@@ -1,8 +1,10 @@
-async function onSubmit() {
+async function onSubmit(e: Event) {
+  e.preventDefault();
+
   let ssid = (document.getElementById("ssid") as HTMLInputElement).value;
   let pass = (document.getElementById("pw") as HTMLInputElement).value;
 
-  await fetch("http://192.168.33.1/settings?allow_cross_origin=1"); // Enable CORS
+  await fetch("http://192.168.33.1/settings?allow_cross_origin=1").catch(); // Enable CORS
   await fetch(`http://192.168.33.1/settings?mqtt_enable=true
       &mqtt_user=admin&mqtt_pass=password&mqtt_server=192.168.227.65:1883`); // Enable and configure MQTT
   await fetch(`http://192.168.33.1/settings?coiot_enable=0`); // Disable CoIot
