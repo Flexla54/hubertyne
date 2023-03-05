@@ -8,9 +8,9 @@ namespace ConnectorService.Controllers
     [ApiController]
     public class ProvisionsController : ControllerBase
     {
-        private readonly ProvisionRepository _provisionRepository;
+        private readonly IProvisionRepository _provisionRepository;
 
-        public ProvisionsController(ProvisionRepository provisionRepository)
+        public ProvisionsController(IProvisionRepository provisionRepository)
         {
             _provisionRepository = provisionRepository;
         }
@@ -36,7 +36,6 @@ namespace ConnectorService.Controllers
 
             Provision provision = _provisionRepository.CreateProvision(
                 Guid.Parse("0d7dd136-5e82-42f2-bc5c-bb5bfdd13639"),
-                dto.Model,
                 dto.Description
             );
 
