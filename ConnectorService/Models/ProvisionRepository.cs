@@ -11,13 +11,12 @@
 
         public IEnumerable<Provision> All => _context.Provisions;
 
-        public Provision CreateProvision(Guid userId, Model model, string? description)
+        public Provision CreateProvision(Guid userId, string? description)
         {
             var provision = new Provision()
             {
                 UserId = userId,
                 Description = description,
-                Model = model
             };
 
             _context.Provisions.Add(provision);
@@ -43,6 +42,22 @@
         public IEnumerable<Provision> GetByUserId(Guid userId)
         {
             return _context.Provisions.Where(_ => _.UserId == userId);
+        }
+
+        public Provision? HasConnected(Guid id)
+        {
+            var provision = _context.Provisions.Where(p => p.Id == id).FirstOrDefault();
+
+            if (provision == null)
+            {
+                return null;
+            }
+
+            provision.HasConnected = true;
+
+            _context.SaveChanges();
+
+            return provision;
         }
     }
 }
