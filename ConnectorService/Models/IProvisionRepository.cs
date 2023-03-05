@@ -4,9 +4,11 @@
     {
         IEnumerable<Provision> All { get; }
 
-        Provision CreateProvision(Guid userId, Model model, string? description);
+        Provision CreateProvision(Guid userId, string? description);
 
         void DeleteProvision(Guid id);
+
+        Provision? HasConnected(Guid id);
 
         Provision? GetById(Guid id);
 
