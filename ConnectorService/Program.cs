@@ -1,5 +1,7 @@
+using ConnectorService;
 using ConnectorService.Models;
 using Microsoft.EntityFrameworkCore;
+using MQTTnet.AspNetCore;
 
 string? dbHostString = Environment.GetEnvironmentVariable("db_host_string");
 
@@ -23,6 +25,21 @@ builder.Services.AddDbContext<ConnectorDbContext>(options =>
     options.UseNpgsql(connectionString);
 });
 
+builder.Services.AddHostedMqttServer(builder =>
+{
+    CustomMqttServer.BuildServerOptions(builder);
+});
+
+builder.Services.AddMqttConnectionHandler();
+builder.Services.AddConnections();
+
+builder.WebHost.UseKestrel(k =>
+{
+    k.ListenAnyIP(1883, l => l.UseMqtt());
+
+    k.ListenAnyIP(5000);
+});
+
 
 var app = builder.Build();
 
@@ -38,6 +55,12 @@ if (app.Environment.IsDevelopment())
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseMqttServer(server =>
+{
+
+    server.ValidatingConnectionAsync += CustomMqttServer.BuildCustomConnectionValidator(app.Services);
+});
 
 app.Run();
 

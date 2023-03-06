@@ -2,7 +2,7 @@
 {
     public interface IProvisionRepository
     {
-        IEnumerable<Provision> All { get; }
+        IQueryable<Provision> All { get; }
 
         Provision CreateProvision(Guid userId, string? description);
 
