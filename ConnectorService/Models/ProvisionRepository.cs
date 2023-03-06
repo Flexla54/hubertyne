@@ -9,7 +9,7 @@
             _context = context;
         }
 
-        public IEnumerable<Provision> All => _context.Provisions;
+        public IQueryable<Provision> All => _context.Provisions;
 
         public Provision CreateProvision(Guid userId, string? description)
         {
