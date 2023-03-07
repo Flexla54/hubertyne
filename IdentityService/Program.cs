@@ -86,7 +86,6 @@ builder.Services.AddOpenIddict()
     })
     .AddServer(options =>
     {
-
         // Enable needed endpoints and authorization code flow + PKCE
         options.SetTokenEndpointUris("connect/token");
         options.SetAuthorizationEndpointUris("connect/authorize");
@@ -102,8 +101,7 @@ builder.Services.AddOpenIddict()
 
         options.UseAspNetCore()
             .EnableTokenEndpointPassthrough()
-            .EnableAuthorizationEndpointPassthrough()
-            .DisableTransportSecurityRequirement(); // TODO: Remove
+            .EnableAuthorizationEndpointPassthrough();
     })
     .AddValidation(options =>
     {
@@ -113,6 +111,19 @@ builder.Services.AddOpenIddict()
     });
 
 var app = builder.Build();
+
+// Change the HTTP scheme to HTTPS
+// -> This has to be done as TLS termination happens at the ingress
+//    and subsequend TCP traffic is only encrypted between the nodes by
+//    the linkerd proxies
+//
+//    TODO: Review
+app.Use((context, next) =>
+{
+    context.Request.Scheme = "https";
+
+    return next(context);
+});
 
 app.MapControllers();
 app.UseRouting();
