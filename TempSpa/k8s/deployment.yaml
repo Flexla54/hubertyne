@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: client-spa
+spec:
+  selector:
+    matchLabels:
+      app: client-spa
+  template:
+    metadata:
+      labels:
+        app: client-spa
+      annotations:
+        linkerd.io/inject: enabled
+    spec:
+      containers:
+      - name: identity-spa
+        image: d-client
+        imagePullPolicy: Never
+        resources:
+          limits:
+            memory: "512Mi"
+            cpu: "1"
+        ports:
+        - containerPort: 80
