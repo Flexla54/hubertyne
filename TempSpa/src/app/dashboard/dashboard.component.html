@@ -18,7 +18,7 @@
 
 <p-toolbar>
     <p-button (click)="display = true" icon="pi pi-bars"></p-button>
-    <p-avatar icon="pi pi-user" onclick="alert('account settings soon:tm:')" size="large"></p-avatar>
+    <p-avatar icon="pi pi-user" (click)="showUser()" size="large"></p-avatar>
 </p-toolbar>
 <div class="consumption-chart">
     <p-chart type="line" [data]="plugdata"></p-chart>
