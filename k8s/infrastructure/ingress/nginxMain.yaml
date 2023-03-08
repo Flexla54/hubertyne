@@ -15,6 +15,16 @@ spec:
       secretName: identity-certificate
   ingressClassName: nginx
   rules:
+  - host: localhost
+    http:
+      paths:
+        - backend:
+            service:
+              name: provision
+              port:
+                number: 80
+          pathType: Prefix
+          path: /
   - host: identity.localhost
     http:
       paths:
