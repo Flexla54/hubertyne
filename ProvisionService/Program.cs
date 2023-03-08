@@ -1,10 +1,10 @@
 using ProvisionService.Models;
 using Microsoft.EntityFrameworkCore;
 using MassTransit;
-using System.Reflection;
 using ProvisionService.Consumers;
 
 string? dbHostString = Environment.GetEnvironmentVariable("db_host_string");
+string? rabbitmqSecret = Environment.GetEnvironmentVariable("rabbitmq_secret");
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -35,10 +35,10 @@ builder.Services.AddMassTransit(x =>
 
     x.UsingRabbitMq((context, cfg) =>
     {
-        cfg.Host("localhost", "/", h =>
+        cfg.Host("rabbitmq", "/", h =>
         {
-            h.Username("guest");
-            h.Password("guest");
+            h.Username("hubertyne");
+            h.Password(rabbitmqSecret ?? "guest");
         });
 
         cfg.ConfigureEndpoints(context);

@@ -13,6 +13,8 @@ public class Program
 
     public static IHostBuilder CreateHostBuilder(string[] args)
     {
+        string? rabbitmqSecret = Environment.GetEnvironmentVariable("rabbitmq_secret");
+
         return Host.CreateDefaultBuilder(args)
             .ConfigureServices((hostContext, services) =>
             {
@@ -26,10 +28,10 @@ public class Program
 
                     x.UsingRabbitMq((context, cfg) =>
                     {
-                        cfg.Host("localhost", "/", h =>
+                        cfg.Host("rabbitmq", "/", h =>
                         {
-                            h.Username("guest");
-                            h.Password("guest");
+                            h.Username("hubertyne");
+                            h.Password(rabbitmqSecret);
                         });
                     });
                 });
