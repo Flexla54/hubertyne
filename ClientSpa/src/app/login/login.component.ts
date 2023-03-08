@@ -10,6 +10,7 @@ import { DelegationService } from '../shared/services/delegation.service';
 export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
   loginFailed: boolean = false;
+  signUpPath: string = '';
 
   constructor(
     private formBuilder: FormBuilder,
@@ -21,6 +22,8 @@ export class LoginComponent implements OnInit {
         username: ['', Validators.required],
         password: ['', Validators.required]
     });
+
+    this.signUpPath = `/signup${document.location.search}`;
   }
 
   get f() { return this.loginForm.controls; }
