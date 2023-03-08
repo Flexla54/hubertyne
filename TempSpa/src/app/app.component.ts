@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { OAuthService } from 'angular-oauth2-oidc';
-import { authCodeFlowConfig } from './auth.config';
+import { authCodeFlowConfig } from './config/auth.config';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
   title = 'TempSpa';
