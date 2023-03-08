@@ -12,7 +12,6 @@ export class AppComponent {
   token_payload: object = {};
 
   constructor(private oauthService: OAuthService) {
-    console.log("hi");
     this.oauthService.configure(authCodeFlowConfig);
     this.oauthService.loadDiscoveryDocumentAndLogin().then(hasToken => {
       if (hasToken) {
