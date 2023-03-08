@@ -9,9 +9,15 @@ import { authCodeFlowConfig } from './auth.config';
 })
 export class AppComponent {
   title = 'TempSpa';
+  token_payload: object = {};
 
   constructor(private oauthService: OAuthService) {
+    console.log("hi");
     this.oauthService.configure(authCodeFlowConfig);
-    this.oauthService.loadDiscoveryDocumentAndTryLogin();
+    this.oauthService.loadDiscoveryDocumentAndLogin().then(hasToken => {
+      if (hasToken) {
+        console.log(this.oauthService.getIdToken());
+      }
+    });
   }
 }
