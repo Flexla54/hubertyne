@@ -1,10 +1,10 @@
-﻿namespace ConnectorService.Models
+﻿namespace ProvisionService.Models
 {
     public class ProvisionRepository : IProvisionRepository
     {
-        private readonly ConnectorDbContext _context;
+        private readonly ProvisionDbContext _context;
 
-        public ProvisionRepository(ConnectorDbContext context)
+        public ProvisionRepository(ProvisionDbContext context)
         {
             _context = context;
         }
