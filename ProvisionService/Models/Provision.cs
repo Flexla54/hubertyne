@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace ConnectorService.Models
+namespace ProvisionService.Models
 {
     public class Provision
     {

@@ -1,4 +1,4 @@
-﻿namespace ConnectorService.Models
+﻿namespace ProvisionService.Models
 {
     public interface IProvisionRepository
     {
