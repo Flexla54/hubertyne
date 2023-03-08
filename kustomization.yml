@@ -6,5 +6,8 @@ resources:
   - "./k8s/selfsignedIssuer.yaml"
   - "./k8s/infrastructure/postgres"
   - "./k8s/infrastructure/ingress"
+  - "./k8s/infrastructure/rabbitmq"
   - "./IdentityService"
+  - "./ProvisionService"
+  - "./MqttService"
   - "./ClientSpa"
