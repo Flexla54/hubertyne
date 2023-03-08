@@ -3,14 +3,14 @@
     public interface IPlugRepository
     {
         IEnumerable<Plug> All { get; }
-        Plug CreatePlug(string name, Guid user);
-        Plug GetbyId(Guid id);
-        List<Plug> GetbyUserId(Guid id);
-        Plug ChangeName(Guid id, string name);
+        Task<Plug> CreatePlug(string name, DateTime date, Guid user);
+        Task<Plug> GetbyId(Guid id);
+        Task<List<Plug>> GetbyUserId(Guid id);
+        Task<Plug> ChangeName(Guid id, string name);
         void AddPlug(Plug plug);
 
-        Plug ChangePowerStatus(Guid id, bool status);
-        Plug ChangeConnectionStatus(Guid id, bool status);
+        Task<Plug> ChangePowerStatus(Guid id, bool status);
+        Task<Plug> ChangeConnectionStatus(Guid id, bool status);
 
     }
 }
