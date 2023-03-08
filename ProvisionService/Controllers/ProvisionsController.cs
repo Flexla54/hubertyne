@@ -1,8 +1,8 @@
-﻿using ConnectorService.Dtos;
-using ConnectorService.Models;
+﻿using ProvisionService.Dtos;
+using ProvisionService.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ConnectorService.Controllers
+namespace ProvisionService.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

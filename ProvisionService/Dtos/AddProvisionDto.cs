@@ -1,7 +1,7 @@
-﻿using ConnectorService.Models;
+﻿using ProvisionService.Models;
 using System.ComponentModel.DataAnnotations;
 
-namespace ConnectorService.Dtos
+namespace ProvisionService.Dtos
 {
     public class AddProvisionDto
     {
