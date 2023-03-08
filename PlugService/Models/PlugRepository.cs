@@ -1,4 +1,6 @@
-﻿namespace PlugService.Models
+﻿using Microsoft.EntityFrameworkCore;
+
+namespace PlugService.Models
 {
     public class PlugRepository : IPlugRepository
     {
@@ -13,43 +15,71 @@
         {
             _context.Plugs.Add(plug);
         }
-        public Plug CreatePlug(string name, Guid user)
+        public async Task<Plug> CreatePlug(string name, DateTime date, Guid user)
         {
             Plug plug = new Plug()
             {
                 Name = name,
+                AddedDate = date,
                 UserId = user,
                 IsConnected = false,
                 IsTurnedOn = false,
             };
             AddPlug(plug);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             return plug;
         }
 
-        public Plug ChangeConnectionStatus(Guid id, bool status)
+        public async Task<Plug> ChangeConnectionStatus(Guid id, bool status)
         {
-            throw new NotImplementedException();
+            Plug newPlug = await _context.Plugs.FirstOrDefaultAsync(p => p.Id == id);
+
+            if (newPlug != null)
+            {
+                newPlug.IsConnected = status;
+                
+                await _context.SaveChangesAsync();
+                return newPlug;
+            }
+            return null;
         }
 
-        public Plug ChangeName(Guid id, string name)
+        public async Task<Plug> ChangeName(Guid id, string name)
         {
-            throw new NotImplementedException();
+            Plug newPlug = await _context.Plugs.FirstOrDefaultAsync(p => p.Id == id);
+
+            if (newPlug != null)
+            {
+                newPlug.Name = name;
+
+                await _context.SaveChangesAsync();
+                return newPlug;
+            }
+            return null;
         }
 
-        public Plug ChangePowerStatus(Guid id, bool status)
+        public async Task<Plug> ChangePowerStatus(Guid id, bool status)
         {
-            throw new NotImplementedException();
+            Plug newPlug = await _context.Plugs.FirstOrDefaultAsync(p => p.Id == id);
+
+            if (newPlug != null)
+            {
+                newPlug.IsTurnedOn = status;
+
+                await _context.SaveChangesAsync();
+                return newPlug;
+            }
+            return null;
         }
 
-        public Plug GetbyId(Guid id)
+        public async Task<Plug> GetbyId(Guid id)
         {
-            return _context.Plugs.Where(_ => _.Id == id).First();
+            return await _context.Plugs.FirstOrDefaultAsync(_ => _.Id == id);
         }
 
-        public List<Plug> GetbyUserId(Guid id)
+        public async Task<List<Plug>> GetbyUserId(Guid id)
         {
-            return _context.Plugs.Where(_ => _.UserId == id).ToList();
+            return await _context.Plugs.Where(_ => _.UserId == id).ToListAsync();
         }
     }
 }
