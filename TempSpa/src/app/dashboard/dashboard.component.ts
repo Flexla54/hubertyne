@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { OAuthService } from 'angular-oauth2-oidc';
+import jwt_decode from 'jwt-decode';
 
 @Component({
   selector: 'app-dashboard',
@@ -8,6 +10,8 @@ import { Component, OnInit } from '@angular/core';
 export class DashboardComponent implements OnInit {
   display: boolean = false;
   plugdata: any;
+
+  constructor(private oauthService: OAuthService) {}
 
   ngOnInit() {
     let week = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
@@ -41,5 +45,12 @@ export class DashboardComponent implements OnInit {
         }
       ]
   };
+  }
+
+  showUser() {
+    if (this.oauthService.hasValidIdToken()) {
+      let payload: {sub: string} = jwt_decode(this.oauthService.getIdToken());
+      alert(`username: ${payload.sub}`);
+    }
   }
 }
