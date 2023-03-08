@@ -25,6 +25,16 @@ spec:
                 number: 80
           pathType: Prefix
           path: /
+  - host: dashboard.localhost
+    http:
+      paths:
+        - backend:
+            service:
+              name: client-spa
+              port:
+                number: 80
+          pathType: Prefix
+          path: /
   - host: identity.localhost
     http:
       paths:
