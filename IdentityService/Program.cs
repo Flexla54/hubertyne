@@ -24,11 +24,11 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
             if (!context.Request.Path.StartsWithSegments("/connect"))
             {
                 context.Response.StatusCode = StatusCodes.Status401Unauthorized;
-            } else
+            }
+            else
             {
                 original(context);
             }
-
 
             return Task.CompletedTask;
         };
@@ -50,6 +50,13 @@ builder.Services.AddCors(options =>
         builder.AllowAnyHeader();
         builder.AllowAnyMethod();
         builder.AllowAnyOrigin();
+    });
+
+    options.AddPolicy("connectEndpoints", builder =>
+    {
+        builder.AllowAnyHeader();
+        builder.WithMethods("GET", "POST");
+        builder.WithOrigins("https://dashboard.localhost");
     });
 });
 
@@ -128,7 +135,7 @@ app.Use((context, next) =>
 app.MapControllers();
 app.UseRouting();
 
-app.UseCors();
+app.UseCors("connectEndpoints");
 
 app.UseAuthentication();
 
