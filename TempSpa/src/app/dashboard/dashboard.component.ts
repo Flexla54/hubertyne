@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { Provision, ProvisionService } from '../service/provision.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -8,6 +10,10 @@ import { Component, OnInit } from '@angular/core';
 export class DashboardComponent implements OnInit {
   display: boolean = false;
   plugdata: any;
+  addPlugWindow: Window | null = null;
+  newDeviceId: string = ''; //TODO: Maybe handle with ngrx
+
+  constructor(private readonly provision: ProvisionService) {}
 
   ngOnInit() {
     let week = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
@@ -49,17 +55,42 @@ export class DashboardComponent implements OnInit {
   }
 
   async addDevice() {
-    let response = await fetch('https://localhost/api/provisions', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
+    this.provision
+      .getProvisionId('')
+      .catch((e) => {
+        // Error handling
+        console.log('something went wrong');
+      })
+      .then((provision) => {
+        if (typeof provision == null) {
+          console.log('The provision handed back was null.');
+          return;
+        }
+        this.newDeviceId = provision!.Id;
+      });
 
-    let deviceId = response.json();
+    this.addPlugWindow = window.open(
+      'localhost/ConnectPlug?id=' + this.newDeviceId
+    );
 
-    window.open('localhost/ConnectPlug?id=' + deviceId);
+    // TODO: Exchange with some code that fires when getting the approval that the device connected
+    let connected: boolean = false;
+    for (let i = 0; i < 10; i++) {
+      await new Promise((resolve) => setTimeout(resolve, 2000));
 
-    // TODO: Some code that fires when getting the approval that the device connected
+      this.provision
+        .getProvisionStatus(this.newDeviceId)
+        .then((prov) => (connected = prov.HasConnected));
+
+      if (connected) {
+        await this.completeDeviceRegistration();
+        return;
+      }
+    }
+  }
+
+  async completeDeviceRegistration() {
+    this.addPlugWindow?.close;
+    this.provision.routeToDevicePage(this.newDeviceId);
   }
 }
