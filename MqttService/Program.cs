@@ -28,10 +28,10 @@ public class Program
 
                     x.UsingRabbitMq((context, cfg) =>
                     {
-                        cfg.Host("rabbitmq", "/", h =>
+                        cfg.Host(rabbitmqSecret != null ? "rabbitmq" : "localhost", "/", h =>
                         {
-                            h.Username("hubertyne");
-                            h.Password(rabbitmqSecret);
+                            h.Username(rabbitmqSecret != null ? "hubertyne" : "guest");
+                            h.Password(rabbitmqSecret ?? "guest");
                         });
                     });
                 });

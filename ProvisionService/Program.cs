@@ -32,12 +32,13 @@ builder.Services.AddMassTransit(x =>
     x.SetKebabCaseEndpointNameFormatter();
 
     x.AddConsumer<ProvisionExistenceConsumer>();
+    x.AddConsumer<ObjectConnectedConsumer>();
 
     x.UsingRabbitMq((context, cfg) =>
     {
-        cfg.Host("rabbitmq", "/", h =>
+        cfg.Host(rabbitmqSecret != null ? "rabbitmq" : "localhost", "/", h =>
         {
-            h.Username("hubertyne");
+            h.Username(rabbitmqSecret != null ? "hubertyne" : "guest");
             h.Password(rabbitmqSecret ?? "guest");
         });
 
