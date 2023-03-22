@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Provision, ProvisionService } from '../service/provision.service';
+import { ApiService } from '../../service/api.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -13,7 +13,10 @@ export class DashboardComponent implements OnInit {
   addPlugWindow: Window | null = null;
   newDeviceId: string = ''; //TODO: Maybe handle with ngrx
 
-  constructor(private readonly provision: ProvisionService) {}
+  constructor(
+    private readonly api: ApiService,
+    private readonly router: Router
+  ) {}
 
   ngOnInit() {
     let week = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
@@ -55,18 +58,19 @@ export class DashboardComponent implements OnInit {
   }
 
   async addDevice() {
-    this.provision
+    // Request ProvisionId
+    this.api
       .getProvisionId('')
-      .catch((e) => {
-        // Error handling
-        console.log('something went wrong');
-      })
       .then((provision) => {
         if (typeof provision == null) {
           console.log('The provision handed back was null.');
           return;
         }
-        this.newDeviceId = provision!.Id;
+        this.newDeviceId = provision!.id;
+      })
+      .catch((e) => {
+        // Error handling
+        console.log('The Request getProvision failed!');
       });
 
     this.addPlugWindow = window.open(
@@ -78,19 +82,22 @@ export class DashboardComponent implements OnInit {
     for (let i = 0; i < 10; i++) {
       await new Promise((resolve) => setTimeout(resolve, 2000));
 
-      this.provision
+      this.api
         .getProvisionStatus(this.newDeviceId)
-        .then((prov) => (connected = prov.HasConnected));
+        .then((prov) => (connected = prov.hasConnected));
 
       if (connected) {
         await this.completeDeviceRegistration();
         return;
       }
     }
+
+    // reset newDeviceId
+    if (!connected) this.newDeviceId = '';
   }
 
   async completeDeviceRegistration() {
     this.addPlugWindow?.close;
-    this.provision.routeToDevicePage(this.newDeviceId);
+    this.router.navigate([`/devices/${this.newDeviceId}`]);
   }
 }
