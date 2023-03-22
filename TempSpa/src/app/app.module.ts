@@ -7,7 +7,7 @@ import { OAuthModule } from 'angular-oauth2-oidc';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
 
 import { AvatarModule } from 'primeng/avatar';
 import { ButtonModule } from 'primeng/button';
@@ -16,12 +16,8 @@ import { SidebarModule } from 'primeng/sidebar';
 import { SkeletonModule } from 'primeng/skeleton';
 import { ToolbarModule } from 'primeng/toolbar';
 
-
 @NgModule({
-  declarations: [
-    AppComponent,
-    DashboardComponent
-  ],
+  declarations: [AppComponent, DashboardComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -36,6 +32,6 @@ import { ToolbarModule } from 'primeng/toolbar';
     ToolbarModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
