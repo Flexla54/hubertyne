@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace PlugService.Models
 {
@@ -15,19 +16,20 @@ namespace PlugService.Models
         {
             _context.Plugs.Add(plug);
         }
-        public async Task<Plug> CreatePlug(string name, DateTime date, Guid user)
+        public async Task<Plug> CreatePlug([FromBody] PlugDto dto)
         {
-            Plug plug = new Plug()
+            Plug plugToAdd = new Plug()
             {
-                Name = name,
-                AddedDate = date,
-                UserId = user,
+                Name = dto.Name,
+                AddedDate = DateTime.Now,
+                Description = dto.Description,
+                UserId = dto.UserId,
                 IsConnected = false,
                 IsTurnedOn = false,
             };
-            AddPlug(plug);
+            AddPlug(plugToAdd);
             await _context.SaveChangesAsync();
-            return plug;
+            return plugToAdd;
         }
 
         public async Task<Plug> ChangeConnectionStatus(Guid id, bool status)
@@ -44,13 +46,13 @@ namespace PlugService.Models
             return null;
         }
 
-        public async Task<Plug> ChangeName(Guid id, string name)
+        public async Task<Plug> ChangeName(Guid id, UpdatePlugDto dto)
         {
             Plug newPlug = await _context.Plugs.FirstOrDefaultAsync(p => p.Id == id);
 
             if (newPlug != null)
             {
-                newPlug.Name = name;
+                newPlug.Name = dto.Name;
 
                 await _context.SaveChangesAsync();
                 return newPlug;
@@ -81,5 +83,7 @@ namespace PlugService.Models
         {
             return await _context.Plugs.Where(_ => _.UserId == id).ToListAsync();
         }
+
+        public async Task<IEnumerable<Plug>> GetAllPlugs() => await _context.Plugs.OrderBy(c => c.Id).ToListAsync();
     }
 }
