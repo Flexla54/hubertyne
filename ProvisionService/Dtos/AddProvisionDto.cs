@@ -5,7 +5,6 @@ namespace ProvisionService.Dtos
 {
     public class AddProvisionDto
     {
-        [Required]
         public string? Description;
     }
 }
