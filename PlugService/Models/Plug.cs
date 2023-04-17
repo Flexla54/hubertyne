@@ -6,14 +6,12 @@ namespace PlugService.Models
     public class Plug
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public Guid Id { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
+        public string? Name { get; set; }
+        public string? Description { get; set; }
         public DateTime AddedDate { get; set; }
-        public bool IsConnected { get; set; }
         public bool IsTurnedOn { get; set; }
         public Guid UserId { get; set; }
-
     }
 }

@@ -11,18 +11,23 @@ namespace PlugService.Controllers
         private readonly IPlugRepository _repository;
         private readonly ILogger<PlugController> _logger;
 
-        public PlugController(PlugRepository repository, ILogger<PlugController> logger)
+        public PlugController(IPlugRepository repository, ILogger<PlugController> logger)
         {
             _repository = repository;
             _logger = logger;
         }
 
         [HttpGet]
-        public async Task<ActionResult<Plug>> GetAllPlugs()
+        public async Task<ActionResult<Plug>> GetAllPlugs([FromQuery] Guid? userId)
         {
             try
             {
-               return Ok(await _repository.GetAllPlugs());
+                if (userId != null)
+                {
+                    return Ok(await _repository.GetbyUserId((Guid) userId));
+                }
+
+                return Ok(await _repository.GetAllPlugs());
             }
             catch (Exception ex)
             {
@@ -36,18 +41,6 @@ namespace PlugService.Controllers
             {
                 var result = await _repository.GetbyId(id);
                 return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Plug>> GetByUserId (Guid id)
-        {
-            try
-            {
-                return Ok(await _repository.GetbyUserId(id));
             }
             catch (Exception ex)
             {
