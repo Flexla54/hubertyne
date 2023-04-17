@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Runtime.CompilerServices;
 
 namespace PlugService.Models
 {
@@ -16,15 +17,14 @@ namespace PlugService.Models
         {
             _context.Plugs.Add(plug);
         }
-        public async Task<Plug> CreatePlug([FromBody] PlugDto dto)
+        public async Task<Plug> CreatePlug(PlugDto dto)
         {
             Plug plugToAdd = new Plug()
             {
                 Name = dto.Name,
-                AddedDate = DateTime.Now,
+                AddedDate = DateTime.Now.ToUniversalTime(),
                 Description = dto.Description,
                 UserId = dto.UserId,
-                IsConnected = false,
                 IsTurnedOn = false,
             };
             AddPlug(plugToAdd);
@@ -32,18 +32,21 @@ namespace PlugService.Models
             return plugToAdd;
         }
 
-        public async Task<Plug> ChangeConnectionStatus(Guid id, bool status)
+        public async Task<Plug> CreatePlug(Guid id, DateTime connectedDate)
         {
-            Plug newPlug = await _context.Plugs.FirstOrDefaultAsync(p => p.Id == id);
-
-            if (newPlug != null)
+            var plugToAdd = new Plug()
             {
-                newPlug.IsConnected = status;
-                
-                await _context.SaveChangesAsync();
-                return newPlug;
-            }
-            return null;
+                Id = id,
+                AddedDate = connectedDate,
+                UserId = Guid.NewGuid(),
+                IsTurnedOn = false
+            };
+
+            AddPlug(plugToAdd);
+
+            await _context.SaveChangesAsync();
+
+            return plugToAdd;
         }
 
         public async Task<Plug> ChangeName(Guid id, UpdatePlugDto dto)

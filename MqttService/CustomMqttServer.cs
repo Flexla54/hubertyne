@@ -125,13 +125,18 @@ namespace ProvisionService
             {
                 try
                 {
-                    Announcement? announcement = JsonSerializer.Deserialize<Announcement>(System.Text.Encoding.Default.GetString(message.Payload));
+                    Announcement? announcement = JsonSerializer.Deserialize<Announcement>(
+                        System.Text.Encoding.Default.GetString(message.Payload),
+                        new JsonSerializerOptions() { PropertyNameCaseInsensitive = true }
+                    );
 
-                    if (announcement == null)
+                    if (announcement == null || announcement.Id == null || announcement.Model == null)
                     {
-                        // Probably some error with the JSON parser
+                        // User did not provide mandatory types
                         throw new JsonException();
                     }
+
+                    _logger.LogInformation($"Announcement from {announcement.Model}");
 
                     ObjectRegistered publishMessage = new() { Id = announcement.Id, Model = announcement.Model, ConnectedDate = DateTime.UtcNow };
 
