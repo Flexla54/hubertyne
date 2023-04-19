@@ -18,5 +18,5 @@ RUN ng build
 # Run stage
 FROM nginx:alpine as run
 
-COPY --from=build /app/dist/temp-spa/ /app/
+COPY --from=build /app/dist/identity-spa/ /app/
 COPY nginx.conf /etc/nginx/nginx.conf

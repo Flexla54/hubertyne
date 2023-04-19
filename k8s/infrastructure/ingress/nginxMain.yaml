@@ -15,54 +15,54 @@ spec:
       secretName: identity-certificate
   ingressClassName: nginx
   rules:
-  - host: localhost
-    http:
-      paths:
-        - backend:
-            service:
-              name: provision
-              port:
-                number: 80
-          pathType: Prefix
-          path: /
-  - host: dashboard.localhost
-    http:
-      paths:
-        - backend:
-            service:
-              name: client-spa
-              port:
-                number: 80
-          pathType: Prefix
-          path: /
-  - host: identity.localhost
-    http:
-      paths:
-      - pathType: Prefix
-        path: /.well-known
-        backend:
-          service:
-            name: identity
-            port:
-              number: 80
-      - pathType: Prefix
-        path: /api
-        backend:
-          service:
-            name: identity
-            port: 
-              number: 80
-      - pathType: Prefix
-        path: /connect
-        backend:
-          service:
-            name: identity
-            port:
-              number: 80
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: identity-spa
-            port:
-              number: 80
+    - host: localhost
+      http:
+        paths:
+          - backend:
+              service:
+                name: provision
+                port:
+                  number: 80
+            pathType: Prefix
+            path: /
+    - host: dashboard.localhost
+      http:
+        paths:
+          - backend:
+              service:
+                name: identity-spa
+                port:
+                  number: 80
+            pathType: Prefix
+            path: /
+    - host: identity.localhost
+      http:
+        paths:
+          - pathType: Prefix
+            path: /.well-known
+            backend:
+              service:
+                name: identity
+                port:
+                  number: 80
+          - pathType: Prefix
+            path: /api
+            backend:
+              service:
+                name: identity
+                port:
+                  number: 80
+          - pathType: Prefix
+            path: /connect
+            backend:
+              service:
+                name: identity
+                port:
+                  number: 80
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: identity-spa
+                port:
+                  number: 80

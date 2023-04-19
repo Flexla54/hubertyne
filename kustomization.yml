@@ -10,5 +10,5 @@ resources:
   - "./IdentityService"
   - "./ProvisionService"
   - "./MqttService"
+  - "./IdentitySpa"
   - "./ClientSpa"
-  - "./TempSpa"
