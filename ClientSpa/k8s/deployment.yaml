@@ -14,13 +14,12 @@ spec:
         linkerd.io/inject: enabled
     spec:
       containers:
-      - name: identity-spa
-        image: id-client
-        imagePullPolicy: Never
-        resources:
-          limits:
-            memory: "512Mi"
-            cpu: "1"
-        ports:
-        - containerPort: 80
-
+        - name: identity-spa
+          image: d-client
+          imagePullPolicy: Never
+          resources:
+            limits:
+              memory: '512Mi'
+              cpu: '1'
+          ports:
+            - containerPort: 80
