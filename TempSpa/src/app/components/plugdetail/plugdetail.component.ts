@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
-import { Plug } from "../models/plug";
+import { Plug } from "../../models/plug";
 
 @Component({
   selector: "app-plugdetail",
