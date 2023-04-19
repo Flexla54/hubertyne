@@ -1,0 +1,38 @@
+.plugconnection,
+.plug-active {
+    display: flex;
+
+    p {
+        margin-right: 1rem;
+    }
+
+    .success-connected,
+    .turned-on {
+        color: lime
+    }
+
+    .not-connected,
+    .turned-off {
+        color: red
+    }
+
+    .turned-on,
+    .turned-off {
+        cursor: pointer;
+    }
+}
+
+div.information-chart {
+    padding-left: 10%;
+    padding-right: 10%;
+}
+
+div.bottom-information {
+    width: 100%;
+    justify-content: center;
+
+    p {
+        text-align: center;
+        font-size: smaller;
+    }
+}
