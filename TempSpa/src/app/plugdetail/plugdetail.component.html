@@ -8,9 +8,21 @@
     </div>
     <ng-template #pluginfo>
         <h1>{{pluginformation!.name}}</h1>
-        <p>(Measurement since {{pluginformation!.addedDate}})</p>
-        <p>Plugstatus</p>
-        <p-toggleButton onLabel="Yes" offLabel="No"></p-toggleButton>
-        <p-chart type="line" [data]="pluginformation!.statistics"></p-chart>
+        <div class="plugconnection">
+            <p>Connection status: </p>
+            <p [ngClass]="pluginformation!.isConnected ? 'success-connected' : 'not-connected'">
+                &#x25C9; {{pluginformation!.isConnected ? "connected" : "disconnected"}}</p>
+        </div>
+        <div class="plug-active">
+            <p>Status: </p>
+            <p (click)="togglePlugActive()" [ngClass]="pluginformation!.isTurnedOn ? 'turned-on' : 'turned-off'">
+                &#x25C9; {{pluginformation!.isTurnedOn ? "on" : "off"}}</p>
+        </div>
+        <div class="information-chart">
+            <p-chart type="line" [data]="pluginformation!.statistics"></p-chart>
+        </div>
+        <div class="bottom-information">
+            <p>(Measurement since {{pluginformation!.addedDate}})</p>
+        </div>
     </ng-template>
 </ng-template>
