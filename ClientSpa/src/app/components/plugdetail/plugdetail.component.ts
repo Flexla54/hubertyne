@@ -15,7 +15,7 @@ export class PlugdetailComponent implements OnInit {
   constructor(private route: ActivatedRoute, private http: HttpClient) {}
 
   async ngOnInit(): Promise<void> {
-    new Promise((f) => setTimeout(f, 100)).then(() => {
+    new Promise((f) => setTimeout(f, 1000)).then(() => {
       this.pluginformation = {
         id: "1",
         name: "living room #1",
@@ -45,5 +45,12 @@ export class PlugdetailComponent implements OnInit {
     this.pluginformation.isTurnedOn = !this.pluginformation.isTurnedOn;
 
     console.log("toggle plug active");
+  }
+
+  removePlug() {
+    if (this.pluginformation == null) return;
+    if (confirm("Are you sure you want to remove this plug?")) {
+      console.log("remove plug");
+    }
   }
 }
