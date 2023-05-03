@@ -4,6 +4,7 @@ import { authCodeFlowConfig } from './config/auth.config';
 import jwt_decode from 'jwt-decode';
 import { ApiService } from './service/api.service';
 import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -23,11 +24,7 @@ export class AppComponent {
     private readonly router: Router
   ) {
     this.oauthService.configure(authCodeFlowConfig);
-    this.oauthService.loadDiscoveryDocumentAndLogin().then((hasToken) => {
-      if (hasToken) {
-        console.log(this.oauthService.getIdToken()); //TODO: remove debug output
-      }
-    });
+    this.oauthService.loadDiscoveryDocumentAndLogin();
   }
 
   async addDevice() {
@@ -47,7 +44,7 @@ export class AppComponent {
       });
 
     this.addPlugWindow = window.open(
-      'localhost/ConnectPlug?id=' + this.newDeviceId
+      `http://${environment.domain}/ConnectPlug?id=` + this.newDeviceId
     );
 
     // TODO: Exchange with some code that fires when getting the approval that the device connected
