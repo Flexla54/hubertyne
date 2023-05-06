@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
       - name: mqtt
-        image: m-server
+        image: lafelx/h-mqtt-service
         imagePullPolicy: Never
         resources:
           limits:
