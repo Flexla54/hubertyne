@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: client-spa
+  name: addplug-spa
 spec:
   selector:
-    app: client-spa
+    app: addplug-spa
   ports:
   - port: 80
     targetPort: 80

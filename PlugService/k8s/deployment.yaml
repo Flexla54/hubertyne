@@ -1,34 +1,39 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: identity
+  name: plug
   labels:
-    app: identity
+    app: plug
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: identity
+      app: plug
   template:
     metadata:
       labels:
-        app: identity
+        app: plug
       annotations:
         linkerd.io/inject: enabled
     spec:
       containers:
-      - name: identity
-        image: lafelx/h-identity-service
+      - name: plug
+        image: lafelx/h-plug-service
         imagePullPolicy: Never
         resources:
           limits:
             memory: 512Mi 
             cpu: "1"
         ports:
-        - containerPort: 80
+        - containerPort: 1883
         env:
           - name: db_host_string
             valueFrom:
               secretKeyRef:
                 key: db_host_string
                 name: postgres-access-secret
+          - name: rabbitmq_secret
+            valueFrom:
+              secretKeyRef:
+                key: secret
+                name: rabbitmq-access-secret
