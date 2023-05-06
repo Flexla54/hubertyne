@@ -12,6 +12,8 @@ spec:
   tls:
     - hosts:
         - "identity.localhost"
+        - "dashboard.localhost"
+        - "localhost"
       secretName: identity-certificate
   ingressClassName: nginx
   rules:
@@ -24,13 +26,30 @@ spec:
                 port:
                   number: 80
             pathType: Prefix
-            path: /
+            path: /api/provisions
+          - backend:
+              service:
+                name: plug
+                port:
+                  number: 80
+            pathType: Prefix
+            path: /api/plug
     - host: dashboard.localhost
       http:
         paths:
           - backend:
               service:
-                name: identity-spa
+                name: client-spa
+                port:
+                  number: 80
+            pathType: Prefix
+            path: /
+    - host: addplug.localhost
+      http:
+        paths:
+          - backend:
+              service:
+                name: addplug-spa
                 port:
                   number: 80
             pathType: Prefix

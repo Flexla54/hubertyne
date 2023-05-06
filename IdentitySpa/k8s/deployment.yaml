@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: identity-spa
-        image: id-client
+        image: lafelx/h-identity-spa
         imagePullPolicy: Never
         resources:
           limits:

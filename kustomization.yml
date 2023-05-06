@@ -9,6 +9,8 @@ resources:
   - "./k8s/infrastructure/rabbitmq"
   - "./IdentityService"
   - "./ProvisionService"
+  - "./PlugService"
   - "./MqttService"
   - "./IdentitySpa"
   - "./ClientSpa"
+  - "./AddPlugSpa"

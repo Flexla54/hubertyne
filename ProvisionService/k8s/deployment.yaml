@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
       - name: provision
-        image: p-server
+        image: lafelx/h-provision-service
         imagePullPolicy: Never
         resources:
           limits:
