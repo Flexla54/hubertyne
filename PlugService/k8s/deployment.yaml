@@ -19,7 +19,6 @@ spec:
       containers:
       - name: plug
         image: lafelx/h-plug-service
-        imagePullPolicy: Never
         resources:
           limits:
             memory: 512Mi 

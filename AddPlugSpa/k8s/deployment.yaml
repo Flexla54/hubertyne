@@ -19,7 +19,6 @@ spec:
       containers:
       - name: mqtt
         image: lafelx/h-addplug-spa
-        imagePullPolicy: Never
         resources:
           limits:
             memory: 512Mi 

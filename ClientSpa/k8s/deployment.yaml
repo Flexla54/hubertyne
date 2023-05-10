@@ -16,7 +16,6 @@ spec:
       containers:
         - name: client-spa
           image: lafelx/h-client-spa
-          imagePullPolicy: Never
           resources:
             limits:
               memory: '512Mi'
