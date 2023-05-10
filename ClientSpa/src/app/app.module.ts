@@ -6,6 +6,8 @@ import { FormsModule } from '@angular/forms';
 
 import { OAuthModule } from 'angular-oauth2-oidc';
 
+import { StoreModule } from '@ngrx/store';
+
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
@@ -43,6 +45,7 @@ import { PlugdetailComponent } from './components/plugdetail/plugdetail.componen
     SkeletonModule,
     ToggleButtonModule,
     ToolbarModule,
+    StoreModule.forRoot({}, {}),
   ],
   providers: [],
   bootstrap: [AppComponent],
