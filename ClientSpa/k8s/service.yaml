@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: identity-spa
+  name: client-spa
 spec:
   selector:
-    app: identity-spa
+    app: client-spa
   ports:
     - port: 80
       targetPort: 80
