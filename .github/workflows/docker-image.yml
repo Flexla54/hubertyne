@@ -7,6 +7,7 @@ on:
 
 jobs:
   push_to_registry:
+    environment: staging
     strategy:
       matrix:
         include:
