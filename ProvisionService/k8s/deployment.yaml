@@ -19,7 +19,6 @@ spec:
       containers:
       - name: provision
         image: lafelx/h-provision-service
-        imagePullPolicy: Never
         resources:
           limits:
             memory: 512Mi 

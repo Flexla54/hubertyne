@@ -16,7 +16,6 @@ spec:
       containers:
       - name: identity-spa
         image: lafelx/h-identity-spa
-        imagePullPolicy: Never
         resources:
           limits:
             memory: "512Mi"

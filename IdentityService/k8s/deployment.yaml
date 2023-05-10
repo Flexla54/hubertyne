@@ -19,7 +19,6 @@ spec:
       containers:
       - name: identity
         image: lafelx/h-identity-service
-        imagePullPolicy: Never
         resources:
           limits:
             memory: 512Mi 
