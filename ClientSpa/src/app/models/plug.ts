@@ -5,5 +5,4 @@ export interface Plug {
   isConnected: boolean;
   isTurnedOn: boolean;
   userId: string;
-  statistics: any;
 }

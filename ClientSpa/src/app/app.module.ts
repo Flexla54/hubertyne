@@ -5,12 +5,12 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 
 import { OAuthModule } from 'angular-oauth2-oidc';
-
 import { StoreModule } from '@ngrx/store';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { PlugdetailComponent } from './components/plugdetail/plugdetail.component';
 
 import { AvatarModule } from 'primeng/avatar';
 import { ButtonModule } from 'primeng/button';
@@ -23,7 +23,6 @@ import { SidebarModule } from 'primeng/sidebar';
 import { SkeletonModule } from 'primeng/skeleton';
 import { ToggleButtonModule } from 'primeng/togglebutton';
 import { ToolbarModule } from 'primeng/toolbar';
-import { PlugdetailComponent } from './components/plugdetail/plugdetail.component';
 
 @NgModule({
   declarations: [AppComponent, DashboardComponent, PlugdetailComponent],
