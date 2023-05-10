@@ -13,8 +13,25 @@ jobs:
         include:
           - dockerfile: ./PlugService/Dockerfile
             image: lafelx/h-plug-service
+            context: .
           - dockerfile: ./ProvisionService/Dockerfile
             image: lafelx/h-provision-service
+            context: .
+          - dockerfile: ./IdentityService/Dockerfile
+            image: lafelx/h-identity-service
+            context: ./IdentityService
+          - dockerfile: ./MqttService/Dockerfile
+            image: lafelx/h-mqtt-service
+            context: .
+          - dockerfile: ./IdentitySpa/Dockerfile
+            image: lafelx/h-identity-spa
+            context: ./IdentitySpa
+          - dockerfile: ./ClientSpa/Dockerfile
+            image: lafelx/h-client-spa
+            context: ./ClientSpa
+          - dockerfile: ./AddPlugSpa/Dockerfile
+            image: lafelx/h-addplug-spa
+            context: ./AddPlugSpa
         
     name: Push Docker image to Docker Hub
     runs-on: ubuntu-latest
