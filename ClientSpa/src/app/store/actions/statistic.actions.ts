@@ -4,11 +4,11 @@ import { GraphQuery, PlugsDataPoints } from 'src/app/models/statistics';
 // --------------------------------------------------
 // Actions for plug statistics
 export const setSingleStatistic = createAction(
-  '[PowerData] Set Statistics for single plug',
+  '[Statistic] Set Statistics for single plug',
   props<{ data: PlugsDataPoints; query: GraphQuery }>()
 );
 
 export const setMultipleStatistics = createAction(
-  '[PowerData] Set Statistics for multiple plugs',
+  '[Statistic] Set Statistics for multiple plugs',
   props<{ data: PlugsDataPoints[]; query: GraphQuery }>()
 );
