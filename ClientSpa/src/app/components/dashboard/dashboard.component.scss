@@ -2,4 +2,60 @@
     padding-left: 15%;
     padding-right: 15%;
     margin-top: 10vh;
+
+    p-chart {
+        cursor: crosshair;
+    }
+
+    .p-hidden-accessible {
+        overflow: hidden;
+        height: 1px;
+        width: 1px;
+
+        background-color: yellow;
+    }
+}
+
+.plug-overview {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+
+    div.ng-star-inserted {
+        max-width: 400px;
+        border-radius: 1rem;
+        box-shadow: 0 0 1rem 0 white;
+        padding: 1rem;
+        margin: 1rem;
+        cursor: pointer;
+
+        h1 {
+            text-align: center;
+            margin: 0;
+            margin-bottom: 1rem;
+        }
+
+        .status-information {
+            display: flex;
+            justify-content: space-evenly;
+
+            i {
+                font-size: xx-large;
+                padding: 1rem;
+                border-radius: 50%;
+            }
+
+            .pi-wifi,
+            .pi-power-off {
+                color: darkgreen;
+                background-color: rgba(0, 255, 0, 0.05);
+            }
+
+            .pi-globe,
+            .actually-off {
+                color: darkred;
+                background-color: rgba(255, 0, 0, 0.1);
+                transform: rotate(180deg);
+            }
+        }
+    }
 }

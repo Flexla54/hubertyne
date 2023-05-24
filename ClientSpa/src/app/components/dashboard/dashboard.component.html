@@ -1,3 +1,16 @@
 <div class="consumption-chart">
-  <p-chart type="line" [data]="plugdata"></p-chart>
+  <p>Start and endpoint: </p>
+  <p-calendar selectionMode="range" [(ngModel)]="daterange" [showTime]="true"></p-calendar>
+  <p>information grouping: </p>
+  <p-dropdown [options]="dateprecisionoptions" [(ngModel)]="dateprecision" />
+  <p-chart [options]="chartOptions" type="line" [data]="plugdata"></p-chart>
+</div>
+<div class="plug-overview">
+  <div [routerLink]="'/plugs/' + p.id" *ngFor="let p of plugs">
+    <h1>{{p.name}}</h1>
+    <div class="status-information">
+      <i [ngClass]="p.isConnected ? 'pi pi-wifi' : 'pi pi-globe'"></i>
+      <i [ngClass]="p.isTurnedOn ? 'pi pi-power-off' : 'pi pi-power-off actually-off'"></i>
+    </div>
+  </div>
 </div>
