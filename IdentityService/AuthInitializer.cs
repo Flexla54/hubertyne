@@ -58,7 +58,7 @@ namespace IdentityService
                 {
                     ClientId = "hubertyne-spa",
                     DisplayName = "Hubertyne Client SPA (Dashboard)",
-                    RedirectUris = { new Uri("http://localhost:4200/home"), new Uri("https://oauthdebugger.com/debug"), new Uri("https://dashboard.localhost/home") },
+                    RedirectUris = { new Uri("http://localhost:4200/home"), new Uri("https://oauthdebugger.com/debug"), new Uri("https://www.hubertyne.me/home") },
                     Type = OpenIddictConstants.ClientTypes.Public,
                     Permissions =
                     {

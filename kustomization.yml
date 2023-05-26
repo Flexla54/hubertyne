@@ -4,6 +4,7 @@ kind: Kustomization
 resources:
   - "./k8s/identityTlsCertificate.yaml"
   - "./k8s/selfsignedIssuer.yaml"
+  - "./k8s/letsEncryptIssuer.yaml"
   - "./k8s/infrastructure/postgres"
   - "./k8s/infrastructure/ingress"
   - "./k8s/infrastructure/rabbitmq"

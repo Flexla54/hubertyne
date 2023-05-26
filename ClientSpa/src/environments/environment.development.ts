@@ -1,3 +1,5 @@
 export const environment = {
-  domain: 'localhost:4200',
+  dashboardHost: 'localhost:4200',
+  identityHost: "identity.localhost",
+  addPlugHost: "addplug.localhost"
 };

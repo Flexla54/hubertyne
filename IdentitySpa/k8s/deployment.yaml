@@ -15,11 +15,11 @@ spec:
     spec:
       containers:
       - name: identity-spa
-        image: lafelx/h-identity-spa
+        image: lafelx/h-identity-spa:latest
         resources:
           limits:
-            memory: "512Mi"
-            cpu: "1"
+            memory: "128Mi"
+            cpu: '0.1'
         ports:
         - containerPort: 80
 

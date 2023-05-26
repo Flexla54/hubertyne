@@ -44,7 +44,7 @@ export class AppComponent {
       });
 
     this.addPlugWindow = window.open(
-      `http://${environment.domain}/ConnectPlug?id=` + this.newDeviceId
+      `http://${environment.addPlugHost}?id=` + this.newDeviceId
     );
 
     // TODO: Exchange with some code that fires when getting the approval that the device connected
