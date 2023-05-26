@@ -56,7 +56,7 @@ builder.Services.AddCors(options =>
     {
         builder.AllowAnyHeader();
         builder.WithMethods("GET", "POST");
-        builder.WithOrigins("https://dashboard.localhost");
+        builder.WithOrigins("https://dashboard.localhost", "https://www.hubertyne.me");
     });
 });
 
