@@ -1,38 +1,46 @@
 <div *ngIf="!loaded; else loadedContent" class="loading">
-    <p-progressSpinner></p-progressSpinner>
+  <p-progressSpinner></p-progressSpinner>
 </div>
 
 <ng-template #loadedContent>
-    <div *ngIf="!pluginformation; else pluginfo">
-        <h1>Plug not found</h1>
+  <div *ngIf="!pluginformation; else pluginfo">
+    <h1>Plug not found</h1>
+  </div>
+  <ng-template #pluginfo>
+    <div class="headline">
+      <div>
+        <h1>{{ pluginformation!.name }}</h1>
+        <button (click)="removePlug()"><i class="pi pi-trash"></i></button>
+      </div>
     </div>
-    <ng-template #pluginfo>
-        <div class="headline">
-            <div>
-                <h1>{{pluginformation!.name}}</h1>
-                <button (click)="removePlug()"><i class="pi pi-trash"></i></button>
-            </div>
+    <div class="content">
+      <div class="textinformation">
+        <div class="plugconnection">
+          <p>Connected:</p>
+          <i
+            [ngClass]="
+              pluginformation!.isConnected ? 'pi pi-check' : 'pi pi-ban'
+            "></i>
         </div>
-        <div class="content">
-            <div class="textinformation">
-                <div class="plugconnection">
-                    <p>Connected: </p>
-                    <i [ngClass]="pluginformation!.isConnected ? 'pi pi-check' : 'pi pi-ban'"></i>
-                </div>
-                <br>
-                <div class="plug-active">
-                    <p>Measurement active: </p>
-                    <button [disabled]="!pluginformation!.isConnected" (click)="togglePlugActive()">
-                        <i [ngClass]="pluginformation!.isTurnedOn ? 'pi pi-check' : 'pi pi-ban'"></i>
-                    </button>
-                </div>
-            </div>
-            <div class="information-chart">
-                <p-chart type="line" [data]="pluginformation!.statistics"></p-chart>
-            </div>
+        <br />
+        <div class="plug-active">
+          <p>Measurement active:</p>
+          <button
+            [disabled]="!pluginformation!.isConnected"
+            (click)="togglePlugActive()">
+            <i
+              [ngClass]="
+                pluginformation!.isTurnedOn ? 'pi pi-check' : 'pi pi-ban'
+              "></i>
+          </button>
         </div>
-        <div class="bottom-information">
-            <p>(Measurement since {{pluginformation!.addedDate}})</p>
-        </div>
-    </ng-template>
+      </div>
+      <div class="information-chart">
+        <p-chart type="line" [data]="statistic"></p-chart>
+      </div>
+    </div>
+    <div class="bottom-information">
+      <p>(Measurement since {{ pluginformation!.addedDate }})</p>
+    </div>
+  </ng-template>
 </ng-template>

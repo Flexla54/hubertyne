@@ -13,6 +13,7 @@ import { Plug } from 'src/app/models/plug';
 export class DashboardComponent implements OnInit {
   plugdata: any;
   plugs: Plug[] | null = null;
+  statistic: any | null = null;
   chartOptions = {
     animation: false,
     elements: {
@@ -46,6 +47,49 @@ export class DashboardComponent implements OnInit {
 
   constructor() {}
 
+  async sampleDataLoad(): Promise<Plug[]> {
+    //simulate load time and return 4 plugs with random data
+    await new Promise((f) => setTimeout(f, 1000));
+    return [
+      {
+        id: '1',
+        name: 'living room #1',
+        addedDate: new Date('2023-03-22T07:56:38+0000'),
+        isConnected: false,
+        isTurnedOn: false,
+        userId: 'admin',
+        statistics: Array.from({ length: 10 }, (_) => Math.random() * 20),
+      },
+      {
+        id: '2',
+        name: 'kitchen',
+        addedDate: new Date('2023-04-22T07:56:38+0000'),
+        isConnected: true,
+        isTurnedOn: true,
+        userId: 'admin',
+        statistics: Array.from({ length: 10 }, (_) => Math.random() * 20),
+      },
+      {
+        id: '3',
+        name: 'living room #2',
+        addedDate: new Date('2023-04-22T07:56:38+0000'),
+        isConnected: true,
+        isTurnedOn: false,
+        userId: 'admin',
+        statistics: Array.from({ length: 10 }, (_) => Math.random() * 20),
+      },
+      {
+        id: '4',
+        name: 'washing machine',
+        addedDate: new Date('2023-04-22T07:56:38+0000'),
+        isConnected: true,
+        isTurnedOn: false,
+        userId: 'admin',
+        statistics: Array.from({ length: 10 }, (_) => Math.random() * 20),
+      },
+    ];
+  }
+
   ngOnInit() {
     let week = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
     for (let i = 0; i < new Date().getDay() + 6; i++) {
@@ -57,96 +101,15 @@ export class DashboardComponent implements OnInit {
     ];
 
     //wait for 1 second to simulate loading
-    new Promise((f) => setTimeout(f, 1000)).then(() => {
-      this.plugs = [
-        {
-          id: '1',
-          name: 'living room #1',
-          addedDate: new Date('2023-03-22T07:56:38+0000'),
-          isConnected: false,
-          isTurnedOn: false,
-          userId: 'admin',
-          statistics: {
-            labels: Array.from({ length: 10 }, (_, i) => i + 1),
-            datasets: [
-              {
-                label: 'Plug Consumption last week',
-                data: Array.from({ length: 10 }, (_) => Math.random() * 20),
-                fill: false,
-                borderColor: 'rgba(255,0,0,0.3)',
-                tension: 1,
-              },
-            ],
-          },
-        },
-        {
-          id: '2',
-          name: 'kitchen',
-          addedDate: new Date('2023-04-22T07:56:38+0000'),
-          isConnected: true,
-          isTurnedOn: true,
-          userId: 'admin',
-          statistics: {
-            labels: Array.from({ length: 10 }, (_, i) => i + 1),
-            datasets: [
-              {
-                label: 'Plug Consumption last week',
-                data: Array.from({ length: 10 }, (_) => Math.random() * 20),
-                fill: false,
-                borderColor: 'rgba(0,255,0,0.3)',
-                tension: 0,
-              },
-            ],
-          },
-        },
-        {
-          id: '3',
-          name: 'living room #2',
-          addedDate: new Date('2023-04-22T07:56:38+0000'),
-          isConnected: true,
-          isTurnedOn: false,
-          userId: 'admin',
-          statistics: {
-            labels: Array.from({ length: 10 }, (_, i) => i + 1),
-            datasets: [
-              {
-                label: 'Plug Consumption last week',
-                data: Array.from({ length: 10 }, (_) => Math.random() * 20),
-                fill: false,
-                borderColor: 'rgba(0,0,255,0.3)',
-                tension: 0,
-              },
-            ],
-          },
-        },
-        {
-          id: '4',
-          name: 'washing machine',
-          addedDate: new Date('2023-04-22T07:56:38+0000'),
-          isConnected: true,
-          isTurnedOn: false,
-          userId: 'admin',
-          statistics: {
-            labels: Array.from({ length: 10 }, (_, i) => i + 1),
-            datasets: [
-              {
-                label: 'Plug Consumption last week',
-                data: Array.from({ length: 10 }, (_) => Math.random() * 20),
-                fill: false,
-                borderColor: 'rgba(0,0,255,0.3)',
-                tension: 0,
-              },
-            ],
-          },
-        },
-      ];
+    this.sampleDataLoad().then((plugs) => {
+      this.plugs = plugs;
 
-      let l = this.plugs?.length;
+      let l = this.plugs?.length ?? 0;
       this.plugdata = {
         labels: week,
         datasets: this.plugs?.map((plug, idx) => ({
           label: plug.name,
-          data: plug.statistics.datasets[0].data,
+          data: plug.statistics,
           fill: {
             target: idx === 0 ? 'origin' : '-1',
             above: `rgba(0,255,255,${(l - idx) / l})`,
