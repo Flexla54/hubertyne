@@ -30,7 +30,7 @@ export class AppComponent {
   async addDevice() {
     // Request ProvisionId
     this.api
-      .getProvisionId('')
+      .createProvisionId('')
       .then((provision) => {
         if (typeof provision == null) {
           console.log('The provision handed back was null.');

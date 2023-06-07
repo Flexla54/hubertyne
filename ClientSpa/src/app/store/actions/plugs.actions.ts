@@ -1,5 +1,6 @@
 import { createAction, props } from '@ngrx/store';
 import { Plug } from 'src/app/models/plug';
+import { ConsumptionQuery, UsageQuery } from 'src/app/models/statistics';
 
 // --------------------------------------------------
 // Actions for plugs
@@ -28,4 +29,27 @@ export const renamePlug = createAction(
 export const removePlug = createAction(
   '[Plug] Remove plug',
   props<{ id: string }>()
+);
+
+// ############################################
+// Statistics
+
+export const requestSpecificPlugUsage = createAction(
+  '[Plug-Statistics] Request usage of specific plug',
+  props<{ query: UsageQuery }>()
+);
+
+export const requestAllPlugsUsage = createAction(
+  '[Plug-Statistics] Request usage of all plugs',
+  props<{ query: UsageQuery }>()
+);
+
+export const requestSpecificConsumption = createAction(
+  '[Plug-Statistics] Request consumption of specific plug',
+  props<{ query: ConsumptionQuery }>()
+);
+
+export const requestAllConsumption = createAction(
+  '[Plug-Statistics] Request consumption of all plugs',
+  props<{ query: ConsumptionQuery }>()
 );
