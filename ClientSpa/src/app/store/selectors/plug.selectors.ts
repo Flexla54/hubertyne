@@ -27,7 +27,7 @@ export const selectConsumptionByPlugId = (id: string) =>
     return stats?.consumption;
   });
 
-export const selectConsumptionByPlugId = (id: string) =>
+export const selectUsageByPlugId = (id: string) =>
   createSelector(selectStatisticsByPlugId(id), (stats) => {
-    return stats?.consumption;
+    return stats?.usage;
   });

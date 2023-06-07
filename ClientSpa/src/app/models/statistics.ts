@@ -27,6 +27,22 @@ export interface DataPoint {
 }
 
 /**
+ * Used for receiving data from server to reference to plug
+ */
+export interface Usage {
+  resourceId: string;
+  data: number;
+}
+
+/**
+ * Used for receiving data from API to reference to plug
+ */
+export interface Consumption {
+  resourceId: string;
+  data: DataPoint[];
+}
+
+/**
  * Used for querying the data points for the line charts.
  * It is possible to query all power monitoring devices or
  * only one (given in resourceId).
@@ -37,8 +53,8 @@ export interface DataPoint {
  */
 export interface ConsumptionQuery {
   resourceId?: string;
-  from: Date;
-  to: Date;
+  from: string;
+  to: string;
   tact: 'minutes' | 'hours' | 'days' | 'weeks' | 'years';
 }
 
@@ -48,6 +64,6 @@ export interface ConsumptionQuery {
  */
 export interface UsageQuery {
   resourceId?: string;
-  from: Date;
-  to: Date;
+  from: string;
+  to: string;
 }
