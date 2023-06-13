@@ -6,6 +6,9 @@ using MQTTnet;
 using MQTTnet.Protocol;
 using MQTTnet.Server;
 using MqttService.Models;
+using MqttService.Services;
+using ServiceBus.Contracts.Ingestion;
+using System.Reflection.Metadata.Ecma335;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 
@@ -17,12 +20,15 @@ namespace ProvisionService
         private IRequestClient<CheckProvisionExistence> _checkProvisionExistenceClient;
         private IPublishEndpoint _publishEndpoint;
         private ILogger<CustomMqttServer> _logger;
+        private IMonitoringTopicService _topicService;
 
-        public CustomMqttServer(IRequestClient<CheckProvisionExistence> requestClient, IPublishEndpoint publishEndpoint, ILogger<CustomMqttServer> logger)
+        public CustomMqttServer(IRequestClient<CheckProvisionExistence> requestClient, IPublishEndpoint publishEndpoint, ILogger<CustomMqttServer> logger,
+            IMonitoringTopicService topicService)
         {
             _checkProvisionExistenceClient = requestClient;
             _publishEndpoint = publishEndpoint;
             _logger = logger;
+            _topicService = topicService;
         }
 
         public async Task StartAsync(CancellationToken cancellationToken)
@@ -108,47 +114,78 @@ namespace ProvisionService
 
         async Task CustomInterceptingPublishAsync(InterceptingPublishEventArgs c)
         {
-            if (!c.ApplicationMessage.Topic.StartsWith($"shellies/{c.ClientId}/"))
+            string topic = c.ApplicationMessage.Topic;
+
+            MatchCollection matches = Regex.Matches(topic, "^shellies\\/[^\\/]+\\/(.*[^/])");
+
+            if (matches.Count < 0)
             {
                 c.ProcessPublish = false;
                 _logger.LogWarning($"Message from {c.ClientId} on {c.ApplicationMessage.Topic} declined");
             }
 
-            await TryHandleAnnouncement(c);
+            string shellyTopic = matches[0].Groups[1].Value;
+
+            if (shellyTopic == "announcement")
+            {
+                await HandleAnnouncement(c).ConfigureAwait(false);
+            }
+
+            await HandleMonitoringTopic(c, shellyTopic).ConfigureAwait(false);
         }
 
-        async Task TryHandleAnnouncement(InterceptingPublishEventArgs c)
+        async Task HandleAnnouncement(InterceptingPublishEventArgs c)
         {
             var message = c.ApplicationMessage;
 
-            if (Regex.IsMatch(message.Topic, "^shellies/[a-zA-Z0-9-]+/announce$"))
+            try
             {
-                try
+                Announcement? announcement = JsonSerializer.Deserialize<Announcement>(
+                    System.Text.Encoding.Default.GetString(message.Payload),
+                    new JsonSerializerOptions() { PropertyNameCaseInsensitive = true }
+                );
+
+                if (announcement == null || announcement.Id == null || announcement.Model == null)
                 {
-                    Announcement? announcement = JsonSerializer.Deserialize<Announcement>(
-                        System.Text.Encoding.Default.GetString(message.Payload),
-                        new JsonSerializerOptions() { PropertyNameCaseInsensitive = true }
-                    );
-
-                    if (announcement == null || announcement.Id == null || announcement.Model == null)
-                    {
-                        // User did not provide mandatory types
-                        throw new JsonException();
-                    }
-
-                    _logger.LogInformation($"Announcement from {announcement.Model}");
-
-                    ObjectRegistered publishMessage = new() { Id = announcement.Id, Model = announcement.Model, ConnectedDate = DateTime.UtcNow };
-
-                    await _publishEndpoint.Publish(publishMessage);
+                    // User did not provide mandatory types
+                    throw new JsonException();
                 }
-                catch (JsonException)
+
+                _logger.LogInformation($"Announcement from {announcement.Model}");
+
+                ObjectRegistered publishMessage = new() { Id = announcement.Id, Model = announcement.Model, ConnectedDate = DateTime.UtcNow };
+
+                await _publishEndpoint.Publish(publishMessage);
+            }
+            catch (JsonException)
+            {
+                c.CloseConnection = true;
+                _logger.LogError($"Received invalid JSON from {c.ClientId}; Disconnecting");
+
+                return;
+            }
+        }
+
+        async Task HandleMonitoringTopic(InterceptingPublishEventArgs c, string processedTopic)
+        {
+
+            _logger.LogInformation($"Processing topics, processed: {processedTopic}, size: {_topicService.Topics.Count}");
+            List<MonitoringTopic> topics = _topicService.Topics.Where(t => t.TopicName == processedTopic).ToList();
+            _logger.LogInformation($"Processed topics: {topics.Count}");
+
+            foreach (MonitoringTopic topic in topics)
+            {
+                _logger.LogInformation($"Found fitting measurement: {topic.MeasurementName}");
+
+                MonitoringTopicUpdate update = new MonitoringTopicUpdate()
                 {
-                    c.CloseConnection = true;
-                    _logger.LogError($"Received invalid JSON from {c.ClientId}; Disconnecting");
+                    AddinName = topic.AddinName,
+                    Id = new Guid(c.ClientId),
+                    MeasurementName = topic.MeasurementName,
+                    Payload = System.Text.Encoding.Default.GetString(c.ApplicationMessage.Payload),
+                };
 
-                    return;
-                }
+                await _publishEndpoint.Publish(update);
             }
         }
     }

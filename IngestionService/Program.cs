@@ -1,16 +1,15 @@
-using ProvisionService;
-using Microsoft.Extensions.Hosting;
+﻿using Microsoft.Extensions.Hosting;
 using MassTransit;
 using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
-using MqttService.Services;
-using MqttService.Consumers;
+using IngestionService.Services;
+using IngestionService.PlugAddin;
 
 public class Program
 {
     public static async Task Main(string[] args)
     {
-        await CreateHostBuilder(args).Build().RunAsync();
+        CreateHostBuilder(args).Build().Run();
     }
 
     public static IHostBuilder CreateHostBuilder(string[] args)
@@ -20,11 +19,13 @@ public class Program
         return Host.CreateDefaultBuilder(args)
             .ConfigureServices((hostContext, services) =>
             {
+                services.AddSingleton(x => new InfluxDbService("simon", "http://localhost:8086"));
+
                 services.AddMassTransit(x =>
                 {
                     x.SetKebabCaseEndpointNameFormatter();
 
-                    x.AddConsumer<RegisterMonitoringTopicConsumer>();
+                    x.AddConsumer<MonitoringTopicUpdateConsumer>();
 
                     x.UsingRabbitMq((context, cfg) =>
                     {
@@ -38,9 +39,7 @@ public class Program
                     });
                 });
 
-                services.AddSingleton<IMonitoringTopicService, MonitoringTopicService>();
-                services.AddHostedService<CustomMqttServer>();
+                services.AddHostedService<RegisterPlugAddinService>();
             });
     }
 }
-
