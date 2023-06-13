@@ -2,7 +2,8 @@ async function onSubmit(e: Event) {
   e.preventDefault();
 
   const searchParams = new URLSearchParams(window.location.search);
-  const deviceId = searchParams.get('id');
+  const provisionID = searchParams.get('id');
+  const mqttIP = 'mqtt.hubertyne.me:80';
 
   let ssid = (document.getElementById('ssid') as HTMLInputElement).value;
   let pass = (document.getElementById('pw') as HTMLInputElement).value;
@@ -10,9 +11,10 @@ async function onSubmit(e: Event) {
   await fetch('http://192.168.33.1/settings?allow_cross_origin=1').catch(); // Enable CORS
   await fetch(
     `http://192.168.33.1/settings?mqtt_enable=true
-      &mqtt_user=` +
-      { deviceId } +
-      `&mqtt_pass=password&mqtt_server=192.168.227.65:1883`
+      &mqtt_id=${provisionID}
+      &mqtt_user=${provisionID}
+      &mqtt_pass=${provisionID}
+      &mqtt_server=${mqttIP}`
   ); // Enable and configure MQTT
   await fetch(`http://192.168.33.1/settings?coiot_enable=0`); // Disable CoIot
 
@@ -38,3 +40,19 @@ function togglePassword() {
     x.type = 'password';
   }
 }
+
+document.addEventListener(
+  'DOMContentLoaded',
+  function () {
+    console.log('hello');
+    let home = document.getElementById('homeLink');
+    if (home) {
+      home.setAttribute(
+        'href',
+        new URLSearchParams(window.location.search).get('success-redirect') ||
+          'https://www.hubertyne.me/home'
+      );
+    }
+  },
+  false
+);
