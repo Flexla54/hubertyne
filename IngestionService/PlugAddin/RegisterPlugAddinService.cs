@@ -17,9 +17,12 @@ namespace IngestionService.PlugAddin
         private IRequestClient<DeregisterMonitoringAddin> _deregisterRequestClient;
         private ILogger<RegisterPlugAddinService> _logger;
 
-        public RegisterPlugAddinService(IRequestClient<RegisterMonitoringTopic> requestClient, ILogger<RegisterPlugAddinService> logger)
+        public RegisterPlugAddinService(IRequestClient<RegisterMonitoringTopic> requestClient,
+            IRequestClient<DeregisterMonitoringAddin> deregisterRequestClient,
+            ILogger<RegisterPlugAddinService> logger)
         {
             _registerRequestClient = requestClient;
+            _deregisterRequestClient = deregisterRequestClient;
             _logger = logger;
         }
 

@@ -15,11 +15,14 @@ public class Program
     public static IHostBuilder CreateHostBuilder(string[] args)
     {
         string? rabbitmqSecret = Environment.GetEnvironmentVariable("rabbitmq_secret");
+        string? influxSecret = Environment.GetEnvironmentVariable("influx_secret");
 
         return Host.CreateDefaultBuilder(args)
             .ConfigureServices((hostContext, services) =>
             {
-                services.AddSingleton(x => new InfluxDbService("simon", "http://localhost:8086"));
+                services.AddSingleton(x => new InfluxDbService(
+                    influxSecret ?? "password",
+                    influxSecret != null ? "http://influx:1883" : "http://localhost:1883"));
 
                 services.AddMassTransit(x =>
                 {

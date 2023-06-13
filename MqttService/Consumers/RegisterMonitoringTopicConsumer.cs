@@ -21,7 +21,6 @@ namespace MqttService.Consumers
         public async Task Consume(ConsumeContext<RegisterMonitoringTopic> context)
         {
             var request = context.Message;
-            _logger.LogInformation("Requested");
 
             MonitoringTopic monitoringTopic = new MonitoringTopic()
             {

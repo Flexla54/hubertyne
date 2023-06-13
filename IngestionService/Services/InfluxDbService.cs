@@ -13,24 +13,28 @@ namespace IngestionService.Services
         private readonly string _token;
         private readonly string _host;
 
+        private readonly InfluxDBClient _client;
+        private readonly WriteApi _writeApi;
+        private readonly QueryApi _queryApi;
+
         public InfluxDbService(string token, string host)
         {
             _token = token;
             _host = host;
+
+            _client = new InfluxDBClient(host, token);
+            _writeApi = _client.GetWriteApi();
+            _queryApi = _client.GetQueryApi();
         }
 
-        public void Write(Action<WriteApiAsync> action)
+        public void Write(Action<WriteApi> action)
         {
-            using var client = new InfluxDBClient(_host, _token);
-            var write = client.GetWriteApiAsync();
-            action(write);
+            action(_writeApi);
         }
 
         public async Task<T> QueryAsync<T>(Func<QueryApi, Task<T>> action)
         {
-            using var client = new InfluxDBClient(_host, _token);
-            var query = client.GetQueryApi();
-            return await action(query);
+            return await action(_queryApi);
         }
     }
 }

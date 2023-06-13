@@ -169,9 +169,7 @@ namespace ProvisionService
         async Task HandleMonitoringTopic(InterceptingPublishEventArgs c, string processedTopic)
         {
 
-            _logger.LogInformation($"Processing topics, processed: {processedTopic}, size: {_topicService.Topics.Count}");
             List<MonitoringTopic> topics = _topicService.Topics.Where(t => t.TopicName == processedTopic).ToList();
-            _logger.LogInformation($"Processed topics: {topics.Count}");
 
             foreach (MonitoringTopic topic in topics)
             {
