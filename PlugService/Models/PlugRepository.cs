@@ -56,6 +56,7 @@ namespace PlugService.Models
             if (newPlug != null)
             {
                 newPlug.Name = dto.Name;
+                newPlug.Description = dto.Description;
 
                 await _context.SaveChangesAsync();
                 return newPlug;
