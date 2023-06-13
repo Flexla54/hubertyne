@@ -2,8 +2,8 @@ async function onSubmit(e: Event) {
   e.preventDefault();
 
   const searchParams = new URLSearchParams(window.location.search);
-  const deviceId = searchParams.get('id');
-  const mqtt_ip = 'mqtt.hubertyne.me';
+  const provisionID = searchParams.get('id');
+  const mqttIP = 'mqtt.hubertyne.me:80';
 
   let ssid = (document.getElementById('ssid') as HTMLInputElement).value;
   let pass = (document.getElementById('pw') as HTMLInputElement).value;
@@ -11,9 +11,10 @@ async function onSubmit(e: Event) {
   await fetch('http://192.168.33.1/settings?allow_cross_origin=1').catch(); // Enable CORS
   await fetch(
     `http://192.168.33.1/settings?mqtt_enable=true
-      &mqtt_user=${deviceId}
-      &mqtt_pass=password
-      &mqtt_server=${mqtt_ip}`
+      &mqtt_id=${provisionID}
+      &mqtt_user=${provisionID}
+      &mqtt_pass=${provisionID}
+      &mqtt_server=${mqttIP}`
   ); // Enable and configure MQTT
   await fetch(`http://192.168.33.1/settings?coiot_enable=0`); // Disable CoIot
 
